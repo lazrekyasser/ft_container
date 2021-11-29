@@ -16,15 +16,17 @@ namespace ft
 			typedef const T&						const_reference;
 			typedef T*								pointer;
 			typedef const T*						const_pointer;
-			// typedef iterator  my_iterator<T>
+			// typedef   my_iterator<T>  iterator
 			// typedef const_iterator
 			// typedef reverse_iterator
 			// typedef const_reverse_iterator
-			typedef ptrdiff_t					difference_type;
-			typedef size_t						size_type;
+			typedef std::ptrdiff_t					difference_type;
+			typedef size_t							size_type;
 
 			//Constructor
-			explicit vector(const allocator_type& alloc = allocator_type());
+			explicit vector(const allocator_type& alloc = allocator_type()) : _size(0), _cap(0), _alloc(alloc), _arr(NULL)  {
+				std::cout <<"alloc Constructor Test Called"<< std::endl;
+			}
 			explicit vector(size_type n, const value_type& val = value_type(), const allocator_type& alloc = allocator_type());
 			template <class InputIterator>
 					vector (InputIterator first, InputIterator last, const allocator_type& alloc = allocator_type());
@@ -43,12 +45,16 @@ namespace ft
 			reverse_iterator		rend();
 			const_reverse_iterator	rend() const;
 			//capacity
-			size_type		size() const;
-			size_type		max_size() const;
+			size_type		size() const { return this->_size; }
+			size_type		max_size() const  {return this->_alloc.max_size(); }
 			void			resize(size_type n, value_type val = value_type());
-			size_type		capacity() const;
-			bool			empty() const;
-			void			reserve(size_type n);
+			size_type		capacity() const { return this->_cap; }
+			bool			empty() const { return (this->_size == 0);}
+			void			reserve(size_type n) {//can throw bad_alloc
+				if (n > this->max_size())
+					throw std::length_error("vector::_M_fill_insert");
+				
+			}
 			//element access
 				//operator []
 			reference		operator[](size_type n);
@@ -68,9 +74,20 @@ namespace ft
 			void			assign(InputIterator first, InputIterator last);
 			void			assign(size_type n, const value_type& val);
 				//Push_Back
-			void			push_back(const value_type& val);
+			void			push_back(const value_type& val) {
+				// if (this->size == 0) {
+				// 	this->_arr = this->_alloc.allocate(1);
+				// 	++this->_cap;
+				// }
+				// else if (this->_size == this->_cap) {
+				// 	this->_cap *= 2;
+				// 	this->_arr = this->allocate(this->_cap);
+				// }
+				// this->_alloc.construct(this->_arr + this->_size, val);
+				// ++this->_size;
+			}
 				//Pop_Back
-			void			push_back(const value_type& val);
+			void			pop_back();
 				//insert
 			iterator		insert(iterator position, const value_type& val);
 			void			insert(iterator position, size_type n, const value_type& val);
@@ -86,9 +103,10 @@ namespace ft
 				//Get_Allocator
 			allocator_type	get_allocator() const;
 		private:
-			pointer		_arr;
-			size_type	_size;
-			size_type	_cap;
+			pointer			_arr;
+			size_type		_size;
+			size_type		_cap;
+			allocator_type	_alloc;//bach an alloci wach b default Alloc ola li dakhel mn l constructeur
 	};
 	//Non-Member Function Overloads
 		//Relational Operators

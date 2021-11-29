@@ -2,7 +2,7 @@
 #define FT_ITERATOR_HPP
 
 #include <iostream>
-
+#include <algorithm>
 namespace ft {
 	template <class Category, class T, class Distance = ptrdiff_t,
 		class Pointer = T*, class Reference = T&>
@@ -22,40 +22,87 @@ namespace ft {
 			typedef iterator<std::random_access_iterator_tag, T>::reference	reference;
 			typedef iterator<std::random_access_iterator_tag, T>::difference_type	difference_type;
 			//constructor
-			my_iterator(void);
-			my_iterator(pointer ip);//iterator::pointer
-			my_iterator(my_iterator const & src);
+			my_iterator(void) : _ip(nullptr) {}
+			my_iterator(pointer ip) : _ip(ip) {}//iterator::pointer
+			my_iterator(my_iterator const & src) : _ip(src._ip) {}
 			//Destructor
 			~my_iterator(void);
 			//assignemet operator
-			my_iterator& operator=(my_iterator const & rhs);
+			my_iterator& operator=(my_iterator const & rhs) {
+				if (this != &rhs) {
+					this->_ip = rhs._ip;
+				}
+				return *this;
+			}
 			//comparison operator
-			bool T::operator ==(const T2 &b) const;
-			bool T::operator !=(const T2 &b) const;
-			bool T::operator <(const T2 &b) const;
-			bool T::operator >(const T2 &b) const;
-			bool T::operator <=(const T2 &b) const;
-			bool T::operator >=(const T2 &b) const;
+			bool	operator ==(const my_iterator &b) const {
+				return (this->_ip == b._ip);
+			}
+			bool	operator !=(const my_iterator &b) const {
+				return  (this->_ip != b._ip);
+			}
+			bool	operator <(const my_iterator &b) const {
+				return (this->_ip < b._ip);
+			}
+			bool	operator >(const my_iterator &b) const {
+				return (this->_ip > b._ip);//compare addresses
+			}
+			bool	operator <=(const my_iterator &b) const {
+				return (this->_ip <= b._ip);
+			}
+			bool	operator >=(const my_iterator &b) const {
+				return (this->_ip >= b._ip);
+			}
 			//post and pre inc & dec
-			T& T::operator++();//++a
-			T& T::operator--();//--a
-			T T::operator++(int);//a++
-			T T::operator--(int);//a--
+			my_iterator&	operator++() {//++a
+				++_ip;
+				return *this;
+			}
+			my_iterator&	operator--() {//--a
+				--_ip;
+				return *this;
+			}
+			my_iterator		operator++(int) {//a++
+				my_iterator ret(*this);
+				++_ip;
+				return ret;
+			}
+			my_iterator		operator--(int) {//a--
+				my_iterator ret(*this);
+				--_ip;
+				return ret;
+			}
 			//assignemet operator
-			T& T::operator +=(const T2& b);
-			T& T::operator -=(const T2& b);
+			my_iterator&	operator +=(const unsigned int & b) {
+				_ip += b;
+				return *this;
+			}
+			my_iterator&	operator -=(const unsigned int & b) {
+				_ip -= b;
+				return *this;
+			}
 			//dereferenced as an rvalue
-			R& T::operator*();
-			R* T::operator->();
+			value_type&	operator*() {//return  value_type
+				return *this->_ip;
+			}
+			// value_type*	operator->();NOT IN ALL CAS WORK
 			//dereference operator []
-			R& T::operator[](S b);
+			value_type&	operator[](unsigned int b) {//return  value_type
+				return *(this->_ip + b);
+			}
 			//arithmetic operators 
-			T T::operator+(const T2 &b) const;//!
-			T T::operator-(const T2 &b) const;//!
+			my_iterator	operator+(const difference_type &b) const {
+				return new my_iterator(this->_ip + b);
+			}
+			T	operator-(const difference_type &b) const {
+				return new my_iterator(this->ip - b);
+			}
 		private:
 			pointer _ip;//iterator::pointer
 	};
-	T operator-(const T &a, const T &b);
+	//a - b
+	template <class Iterator>
+	typename Iterator::difference_type operator-(const Iterator &a, const Iterator &b);//
 }
 
 #endif
