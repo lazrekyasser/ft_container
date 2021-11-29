@@ -72,8 +72,8 @@ namespace ft
 				if (n > this->_size) {
 					if (n <= this->_cap) {
 						this->_size = n;
-						for (size_type i = 0; i < this->_size; i++) {
-							if (i > old_size) {
+						for (size_type i = 0; i < this->_cap; i++) {
+							if (i >= old_size && i < this->_size) {/////
 								this->_alloc.destroy(this->_arr + i);//
 								this->_alloc.construct(this->_arr + i, val);//ecrase???
 							}
@@ -83,13 +83,13 @@ namespace ft
 						/////cas de size and cap == 0!!!!
 						this->_size = n;
 						// this->_cap = n;
+						this->_cap *= 2;
 						for (size_type i = 0; i < this->_cap; i++) {
-							if (i > old_size) {
+							if (i >= old_size && i < this->_size) {//i >= old_size && i < this->_size
 								this->_alloc.destroy(this->_arr + i);//
 								this->_alloc.construct(this->_arr + i, val);//ecrase???
 							}
 						}
-						this->_cap *= 2;
 					}
 				}
 			}
@@ -142,7 +142,13 @@ namespace ft
 				++this->_size;
 			}
 				//Pop_Back
-			// void			pop_back();
+			void			pop_back() {
+				if (this->_size == 0)
+					return ;
+				this->_alloc.destroy(this->_arr + this->_size - 1);
+				this->_alloc.construct(this->_arr + this->_size - 1, value_type());
+				--this->_size;
+			}
 			// 	//insert
 			// iterator		insert(iterator position, const value_type& val);
 			// void			insert(iterator position, size_type n, const value_type& val);

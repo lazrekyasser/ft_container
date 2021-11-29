@@ -91,19 +91,20 @@ int main() {
     vec.push_back(b);
     vec.push_back(b);
     vec.push_back(b);
+    vec.pop_back();
     for (size_t i = 0; i < vec.capacity(); i++) {//untile size
         std::cout <<vec[i]<< std::endl;
     }
     A c(3, 'c');
     std::cout <<"size       = "<<vec.size()<< std::endl;
     std::cout <<"capacity   = "<<vec.capacity()<< std::endl;
-    // std::cout <<"---resizingg---------"<< std::endl;
-    // vec.resize(11, c);
-    // std::cout <<"size       = "<<vec.size()<< std::endl;
-    // std::cout <<"capacity   = "<<vec.capacity()<< std::endl;
-    // for (size_t i = 0; i < vec.capacity(); i++) {//untile size
-    //     std::cout <<vec[i]<< std::endl;
-    // }
+    std::cout <<"---resizingg---------"<< std::endl;
+    vec.resize(11, c);
+    std::cout <<"size       = "<<vec.size()<< std::endl;
+    std::cout <<"capacity   = "<<vec.capacity()<< std::endl;
+    for (size_t i = 0; i < vec.capacity(); i++) {//untile size
+        std::cout <<vec[i]<< std::endl;
+    }
 
     return 0;
 }
