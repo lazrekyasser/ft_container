@@ -1,32 +1,58 @@
 #include <iostream>
 #include <memory>
 #include <vector>
+#include "ft_vector.hpp"
 
 class A {
     public:
         int a;
         char b;
+        A() : a(0), b(0) {}
         A(int a, char b) : a(a), b(b) {}
 };
 
+std::ostream&   operator<<(std::ostream & o, A const & a) {
+    o << a.a << " " << a.b;
+    return o;
+}
+
 int main() {
     //#####TEST VECTOR CONST ALLOC
-    std::allocator<int> alloc;
-    int *arr = alloc.allocate(1);
-    arr[0] = 8;
-    arr = alloc.allocate(2);
-    arr[1] = 9;
-    for (int i = 0; i < 2; i++)
-        std::cout <<arr[i]<< std::endl;
-    // std::vector<int> vec(alloc);
+    // std::allocator<int> alloc;
+    // int *arr = alloc.allocate(1);
+    // arr[0] = 8;
+    // alloc.construct(arr, 8);
+    // int *arr = alloc.allocate(2);
+    // arr[1] = 9;
+    // for (int i = 0; i < 2; i++)
+    //     std::cout <<arr[i]<< std::endl;
+    // alloc.deallocate(arr, 0);
+
+    // alloc.destroy(arr);
+    ///#####TEST RESERVE
+//     std::vector<int> bar;
+//   std::vector<int>::size_type sz = bar.capacity();
+//   bar.reserve(100);   // this is the only difference with foo above
+//   std::cout << "making bar grow:\n";
+//   for (int i=0; i<100; ++i) {
+//     bar.push_back(i);
+//     if (sz!=bar.capacity()) {
+//       sz = bar.capacity();
+//       std::cout << "capacity changed: " << sz << '\n';
+//     }
+//   }
+//       std::cout << "capacity changed: " << bar.capacity() << '\n';
+    // std::vector<int> vec;
     // vec.push_back(1);
-    // // vec.push_back(1);
-    // // vec.push_back(1);
-    // // vec.push_back(1);
-    // // vec.push_back(1);
+    // vec.push_back(1);
+    // vec.push_back(1);
+    // vec.push_back(1);
+    // vec.push_back(1);
+    // vec.reserve(10);
     // std::cout <<"size       = "<<vec.size()<< std::endl;
     // std::cout <<"capacity   = "<<vec.capacity()<< std::endl;
-
+    // for (int i = 0; i < vec.size(); i++)
+    //     std::cout <<vec[i]<< std::endl;
     //#################
     // std::allocator<int> alloc;
     // int *ptr = alloc.allocate(5);
@@ -56,15 +82,28 @@ int main() {
     // std::cout << "address of vec1 - 3 = " << ptr2 <<std::endl;
     // std::cout << (it1 > it2) << std::endl;
     // std::cout << *it2 << std::endl;
-    // A a(1, 'c');
-    // A b(2, '2');
-    // std::vector<A> vec;
-    // vec.push_back(a);
-    // vec.push_back(b);
-
-    // std::vector<A>::iterator it1 = vec.begin();
-    // // std::vector<A>::iterator it1 = vec.begin();
-    // std::cout <<it1->b<< std::endl;
+    A a(1, 'a');
+    A b(2, 'b');
+    ft::vector<A> vec;
+    // vec.reserve(10);
+    vec.push_back(a);
+    vec.push_back(b);
+    vec.push_back(b);
+    vec.push_back(b);
+    vec.push_back(b);
+    for (size_t i = 0; i < vec.capacity(); i++) {//untile size
+        std::cout <<vec[i]<< std::endl;
+    }
+    A c(3, 'c');
+    std::cout <<"size       = "<<vec.size()<< std::endl;
+    std::cout <<"capacity   = "<<vec.capacity()<< std::endl;
+    // std::cout <<"---resizingg---------"<< std::endl;
+    // vec.resize(11, c);
+    // std::cout <<"size       = "<<vec.size()<< std::endl;
+    // std::cout <<"capacity   = "<<vec.capacity()<< std::endl;
+    // for (size_t i = 0; i < vec.capacity(); i++) {//untile size
+    //     std::cout <<vec[i]<< std::endl;
+    // }
 
     return 0;
 }
