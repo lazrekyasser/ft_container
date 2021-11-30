@@ -17,16 +17,16 @@ namespace ft {
 	template <class T>//T --> is myVector type
 	class my_iterator : public iterator<std::random_access_iterator_tag, T> {
 		public:
-			typedef iterator<std::random_access_iterator_tag, T>::value_type value_type;
-			typedef iterator<std::random_access_iterator_tag, T>::pointer	pointer;
-			typedef iterator<std::random_access_iterator_tag, T>::reference	reference;
-			typedef iterator<std::random_access_iterator_tag, T>::difference_type	difference_type;
+			typedef typename iterator<std::random_access_iterator_tag, T>::value_type value_type;
+			typedef typename iterator<std::random_access_iterator_tag, T>::pointer	pointer;
+			typedef typename iterator<std::random_access_iterator_tag, T>::reference	reference;
+			typedef typename iterator<std::random_access_iterator_tag, T>::difference_type	difference_type;
 			//constructor
 			my_iterator(void) : _ip(nullptr) {}
 			my_iterator(pointer ip) : _ip(ip) {}//iterator::pointer
 			my_iterator(my_iterator const & src) : _ip(src._ip) {}
 			//Destructor
-			~my_iterator(void);
+			~my_iterator(void) {}
 			//assignemet operator
 			my_iterator& operator=(my_iterator const & rhs) {
 				if (this != &rhs) {
@@ -92,17 +92,17 @@ namespace ft {
 			}
 			//arithmetic operators 
 			my_iterator	operator+(const difference_type &b) const {
-				return new my_iterator(this->_ip + b);
+				return my_iterator(this->_ip + b);
 			}
-			T	operator-(const difference_type &b) const {
-				return new my_iterator(this->ip - b);
+			my_iterator	operator-(const difference_type &b) const {
+				return my_iterator(this->ip - b);
 			}
 		private:
 			pointer _ip;//iterator::pointer
 	};
 	//a - b
-	template <class Iterator>
-	typename Iterator::difference_type operator-(const Iterator &a, const Iterator &b);//
+	// template <class Iterator>
+	// typename Iterator::difference_type operator-(const Iterator &a, const Iterator &b);//
 }
 
 #endif

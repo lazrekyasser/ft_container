@@ -7,7 +7,7 @@ class A {
     public:
         int a;
         char b;
-        A() : a(0), b(0) {}
+        A() : a(0), b('0') {}
         A(int a, char b) : a(a), b(b) {}
 };
 
@@ -82,28 +82,48 @@ int main() {
     // std::cout << "address of vec1 - 3 = " << ptr2 <<std::endl;
     // std::cout << (it1 > it2) << std::endl;
     // std::cout << *it2 << std::endl;
-    A a(1, 'a');
-    A b(2, 'b');
-    ft::vector<A> vec;
-    // vec.reserve(10);
-    vec.push_back(a);
-    vec.push_back(b);
-    vec.push_back(b);
-    vec.push_back(b);
-    vec.push_back(b);
-    vec.pop_back();
-    for (size_t i = 0; i < vec.capacity(); i++) {//untile size
-        std::cout <<vec[i]<< std::endl;
-    }
-    A c(3, 'c');
-    std::cout <<"size       = "<<vec.size()<< std::endl;
-    std::cout <<"capacity   = "<<vec.capacity()<< std::endl;
-    std::cout <<"---resizingg---------"<< std::endl;
-    vec.resize(11, c);
-    std::cout <<"size       = "<<vec.size()<< std::endl;
-    std::cout <<"capacity   = "<<vec.capacity()<< std::endl;
-    for (size_t i = 0; i < vec.capacity(); i++) {//untile size
-        std::cout <<vec[i]<< std::endl;
+    // A a(1, 'a');
+    // A b(2, 'b');
+    // NAME_SPACE::vector<A> vec;
+    // // vec.reserve(10);
+    // vec.push_back(a);
+    // vec.push_back(b);
+    // vec.push_back(b);
+    // vec.push_back(b);
+    // vec.push_back(b);
+    // for (size_t i = 0; i < vec.capacity(); i++) {//untile size
+    //     std::cout <<vec[i]<< std::endl;
+    // }
+    // vec.pop_back();
+    // for (size_t i = 0; i < vec.capacity(); i++) {//untile size
+    //     std::cout <<vec[i]<< std::endl;
+    // }
+    // A c(3, 'c');
+    // std::cout <<"size       = "<<vec.size()<< std::endl;
+    // std::cout <<"capacity   = "<<vec.capacity()<< std::endl;
+    // std::cout <<"---resizingg---------"<< std::endl;
+    // vec.resize(11, c);
+    // std::cout <<"size       = "<<vec.size()<< std::endl;
+    // std::cout <<"capacity   = "<<vec.capacity()<< std::endl;
+    // for (size_t i = 0; i < vec.capacity(); i++) {//untile size
+    //     std::cout <<vec[i]<< std::endl;
+    // }
+
+    NAME_SPACE::vector<int> vec;
+    vec.push_back(1);
+    vec.push_back(2);
+    vec.push_back(1);
+    vec.push_back(2);
+    vec.push_back(1);
+    vec.push_back(2);
+    std::cout << vec[-10] << std::endl;
+    NAME_SPACE::vector<int>::iterator b = vec.begin() + 2;
+    NAME_SPACE::vector<int>::iterator e = vec.end();
+    int i = 2;
+    while (i < vec.size()) {
+        std::cout <<*b<< std::endl;
+        b++;
+        i++;
     }
 
     return 0;

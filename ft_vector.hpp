@@ -3,6 +3,7 @@
 
 #include <memory>
 #include <iostream>
+#include "ft_iterator.hpp"
 
 namespace ft
 {
@@ -16,7 +17,7 @@ namespace ft
 			typedef const T&						const_reference;
 			typedef T*								pointer;
 			typedef const T*						const_pointer;
-			// typedef   my_iterator<T>  iterator;
+			typedef my_iterator<T>  				iterator;
 			// typedef const_iterator
 			// typedef reverse_iterator
 			// typedef const_reverse_iterator
@@ -40,9 +41,13 @@ namespace ft
 			vector&		operator=(const vector & rhs);
 
 			// Iterator's Methodes
-			// iterator				begin();
+			iterator				begin() {
+				return iterator(this->_arr);
+			}
 			// const_iterator			begin() const;
-			// iterator				end();
+			iterator				end() {
+				return iterator(this->_arr + this->_size);
+			};
 			// const_iterator			end() const;
 			// reverse_iterator 		rbegin();
 			// const_reverse_iterator	rbegin() const;
@@ -113,8 +118,12 @@ namespace ft
 			}
 			//element access
 				//operator []
-			reference		operator[](size_type n) { return *(this->_arr + n) ;}//check n 
-			// const_reference	operator[](size_type n) const;
+			reference		operator[](size_type n) { 
+				return *(this->_arr + n);
+			}//check n 
+			const_reference	operator[](size_type n) const {
+				return *(this->_arr + n);
+			}
 			// 	//  AT
 			// reference		at(size_type n);
 			// const_reference	at(size_type n) const;
@@ -146,7 +155,7 @@ namespace ft
 				if (this->_size == 0)
 					return ;
 				this->_alloc.destroy(this->_arr + this->_size - 1);
-				this->_alloc.construct(this->_arr + this->_size - 1, value_type());
+				// this->_alloc.construct(this->_arr + this->_size - 1, value_type());
 				--this->_size;
 			}
 			// 	//insert
