@@ -95,14 +95,19 @@ namespace ft {
 				return my_iterator(this->_ip + b);
 			}
 			my_iterator	operator-(const difference_type &b) const {
-				return my_iterator(this->ip - b);
+				return my_iterator(this->_ip - b);
+			}
+			pointer	 base(void) const {
+				return this->_ip;
 			}
 		private:
 			pointer _ip;//iterator::pointer
 	};
 	//a - b
-	// template <class Iterator>
-	// typename Iterator::difference_type operator-(const Iterator &a, const Iterator &b);//
+	template <class Iterator>
+	typename Iterator::difference_type operator-(const Iterator &a, const Iterator &b) {
+		return a.base() - b.base();
+	}
 }
 
 #endif
