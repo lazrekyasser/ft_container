@@ -15,7 +15,10 @@ std::ostream&   operator<<(std::ostream & o, A const & a) {
     o << a.a << " " << a.b;
     return o;
 }
-
+// // template<typename T>
+// bool fun(int & a) {
+//   return false;
+// }
 // int main() {
 //     //#####TEST VECTOR CONST ALLOC
 //     // std::allocator<int> alloc;
@@ -193,19 +196,6 @@ std::ostream&   operator<<(std::ostream & o, A const & a) {
 //   return 0;
 // }
 int main( ) {
-  NAME_SPACE::vector<int> myvector;
-  myvector.push_back(1);
-  myvector.push_back(2);
-  myvector.push_back(3);
-  myvector.push_back(4);
-  myvector.push_back(5);
-  myvector.push_back(6);
-  myvector.push_back(7);
-  myvector.push_back(8);
-  // // myvector.push_back(9);
-  // // myvector.push_back(10);
-  std::cout << "capacity " << myvector.capacity() << std::endl;
-  std::cout << "size " << myvector.size() << std::endl;
   // A* arr = new A[5];
   // arr[0] =  A(1, '1');
   // arr[1] =  A(2, '2');
@@ -234,21 +224,95 @@ int main( ) {
   // v.push_back(22);
   // v.push_back(23);
   // v.push_back(24);
+  // NAME_SPACE::vector<int> myvector;
+  // myvector.push_back(1);
+  // myvector.push_back(2);
+  // myvector.push_back(3);
+  // myvector.push_back(4);
+  // myvector.push_back(5);
+  // myvector.push_back(6);
+  // // myvector.push_back(7);
+  // // myvector.push_back(8);
+  // // myvector.push_back(9);
+  // // // myvector.push_back(10);
+  // NAME_SPACE::vector<int> v(9, 100);
+  // // NAME_SPACE::vector<int> v(myvector);
+  // // v = b;
+  //   myvector.swap(v);
+  // std::cout << "capacity " << myvector.capacity() << std::endl;
+  // std::cout << "size " << myvector.size() << std::endl;
 
-    std::cout << "myvector contains:";
-    for (int i=0;i<myvector.size();i++) {
-        std::cout << ' ' << myvector[i];
-    }
-    std::cout << '\n';
-    NAME_SPACE::vector<int>::iterator i= myvector.erase(myvector.begin()+3 , myvector.begin() + 5);
-    std::cout << "capacity " << myvector.capacity() << std::endl;
-    std::cout << "size " << myvector.size() << std::endl;
-    std::cout << "myvector contains:";
-    for (NAME_SPACE::vector<int>::iterator it = myvector.begin(); it != myvector.end(); ++it) {
-      std::cout << ' ' << *it;
-    }
-    std::cout << '\n';
-    // std::cout << "end2 " << (myvector.end().base()) <<  std::endl;
-    std::cout << *i<<std::endl;
+  //   std::cout << "myvector contains:";
+  //   for (int i=0;i<myvector.size();i++) {
+  //       std::cout << ' ' << myvector[i];
+  //   }
+  //   std::cout << '\n';
+  //   // NAME_SPACE::vector<int>::iterator i= 
+  //   // myvector.insert(myvector.begin()+7 , 2, 10);
+  //   std::cout << "capacity " << v.capacity() << std::endl;
+  //   std::cout << "size " << v.size() << std::endl;
+  //   std::cout << "v contains:";
+  //   for (NAME_SPACE::vector<int>::iterator it = v.begin()\
+  //   ; it != v.end(); ++it) {
+  //     std::cout << ' ' << *it;
+  //   }
+  //   std::cout << '\n';
+  // NAME_SPACE::vector<int> vec(5, 100);
+  // NAME_SPACE::vector<int> v(5, 200);
+  // std::cout << "befor insert\n";
+  // std::cout << "capacity " << vec.capacity() << std::endl;
+  // std::cout << "size " << vec.size() << std::endl;
+
+  //   std::cout << "vec contains:";
+  //   for (int i=0;i<vec.size();i++) {
+  //       std::cout << ' ' << vec[i];
+  //   }
+  //   std::cout << '\n';
+  // // vec.insert(vec.begin()+1, v.begin(), v.begin()+7);
+  // vec.insert(vec.begin()+1, 7, 20);
+  // std::cout << "after insert\n";
+  // std::cout << "capacity " << vec.capacity() << std::endl;
+  // std::cout << "size " << vec.size() << std::endl;
+
+  //   std::cout << "vec contains:";
+  //   for (int i=0;i<vec.size();i++) {
+  //       std::cout << ' ' << vec[i];
+  //   }
+  //   std::cout << '\n';
+    // std::cout << ft::is_integral<std::string>::value << std::endl;
+    // std::cout << *i<<std::endl;
+
+    ///test operators between vectors
+  //   ft::vector<int> foo (3,50);   // three ints with a value of 100
+  //   ft::vector<int> bar (3,100);   // two ints with a value of 200
+
+  // if (foo < bar) std::cout << "foo and bar are equal\n";
+  // ft::vector<int> v1(5, 100);
+  // ft::vector<int> v2(5, 200);
+  // // v1.swap(v2);
+  // for (int i = 0; i < v1.size();i++)
+  //   std::cout <<v1[i] <<" ";
+  //   std::cout << std::endl;
+  // for (int i = 0; i < v2.size();i++)
+  //   std::cout <<v2[i] <<" ";
+  // std::cout << std::endl;
+  //##########test const Iterator
+  NAME_SPACE::vector<int> myvector;
+  for (int i=0; i<10; i++) myvector.push_back(i);	// myvector: 0 1 2 3 4 5 6 7 8 9
+
+
+  NAME_SPACE::vector<int>::const_reverse_iterator rev_it = \
+  myvector.rbegin();
+
+  std::cout << "The fourth element from the end is: " << *rev_it << '\n';
+
+  // ci1 = vec.begin();//implisite cast of iterator to const iterator
+  // std::cout <<"ci1 = "<<*ci1<< std::endl;
+  //################
   return 0;
+
 }
+//factor overload operator() in the class
+//predicate are something to return Boolean
+//when function ///return bool and take 1 argument/// we CALL it UNARY PREDUCATE
+//when function ///return bool and take 2 argument/// we CALL it BINARY PREDICATE
