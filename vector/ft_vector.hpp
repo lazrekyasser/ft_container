@@ -117,11 +117,15 @@ namespace ft
 			reverse_iterator 		rbegin() {
 				return reverse_iterator(this->_arr + this->_size);
 			}
-			// const_reverse_iterator	rbegin() const;
+			const_reverse_iterator	rbegin() const {//
+				return const_reverse_iterator(this->_arr + this->_size);
+			}
 			reverse_iterator		rend() {
 				return reverse_iterator(this->_arr);
 			}
-			// const_reverse_iterator	rend() const;
+			const_reverse_iterator	rend() const {//
+				return const_reverse_iterator(this->_arr);
+			}
 
 			//capacity
 			size_type		size() const { return this->_size; }
@@ -349,7 +353,7 @@ namespace ft
 				for (int i = 0; i < n; i++) {
 					this->_alloc.construct(this->_arr + pos + i, *first);
 					this->_size++;
-					++first;
+					++first;///copie of first
 				}
 			}
 			// 	//Erase

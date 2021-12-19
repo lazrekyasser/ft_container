@@ -74,7 +74,7 @@ namespace ft {
 			value_type&	operator*() {//return  value_type
 				return *this->_ip;
 			}
-			value_type*	operator->() {//NOT IN ALL CAS WORK
+			value_type*	operator->() {//NOT IN ALL CASES WORK
 				return &(operator*());
 			}
 			//dereference operator []
@@ -88,6 +88,27 @@ namespace ft {
 			my_iterator	operator-(const difference_type &b) const {
 				return my_iterator(this->_ip - b);
 			}
+			/*
+	
+	bool	operator ==(const iterator &b) {
+		return (a.base() == b.base());
+	}
+	bool	operator !=(const iterator &b) {
+		return  (a.base() != b.base());
+	}
+	bool	operator <(const iterator &b) {
+		return (a.base() < b.base());
+	}
+	bool	operator >(const iterator &b) {
+		return (a.base() > b.base());//compare addresses
+	}
+	bool	operator <=(const iterator &b) {
+		return (a.base() <= b.base());
+	}
+	bool	operator >=(const iterator &b) {
+		return (a.base() >= b.base());
+	}
+			*/
 			pointer	 base(void) const {
 				return this->_ip;
 			}
@@ -96,7 +117,12 @@ namespace ft {
 	};
 	//REVERSE_ITERATOR
 	template<class Iterator>
-	class reverse_iterator : public ft::iterator_traits<Iterator> {
+	// class reverse_iterator : public ft::iterator_traits<Iterator> {
+	class reverse_iterator : public iterator<typename iterator_traits<Iterator>::iterator_category,
+                      typename iterator_traits<Iterator>::value_type,
+                      typename iterator_traits<Iterator>::difference_type,
+                      typename iterator_traits<Iterator>::pointer,
+                      typename iterator_traits<Iterator>::reference> {
 		public:
 			typedef Iterator													iterator_type;
 			typedef typename ft::iterator_traits<Iterator>::iterator_category	iterator_category;
@@ -155,7 +181,7 @@ namespace ft {
 			}
 			//dereferenced as an rvalue
 			value_type&	operator*() {//return  value_type
-				return *(--this->_ip);
+				return *(this->_ip - 1);
 			}
 			value_type*	operator->() {//NOT IN ALL CAS WORK
 				return &(operator*());
@@ -174,6 +200,27 @@ namespace ft {
 			pointer	 base(void) const {
 				return this->_ip;
 			}
+			/*
+	
+	bool	operator ==(const reverse_iterator &b) {
+		return (a.base() == b.base());
+	}
+	bool	operator !=(const reverse_iterator &b) {
+		return  (a.base() != b.base());
+	}
+	bool	operator <(const reverse_iterator &b) {
+		return (a.base() < b.base());
+	}
+	bool	operator >(const reverse_iterator &b) {
+		return (a.base() > b.base());//compare addresses
+	}
+	bool	operator <=(const reverse_iterator &b) {
+		return (a.base() <= b.base());
+	}
+	bool	operator >=(const reverse_iterator &b) {
+		return (a.base() >= b.base());
+	}
+			*/
 		private:
 			pointer _ip;//iterator::pointer
 	};

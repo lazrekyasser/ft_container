@@ -296,18 +296,52 @@ int main( ) {
   // for (int i = 0; i < v2.size();i++)
   //   std::cout <<v2[i] <<" ";
   // std::cout << std::endl;
+
+
   //##########test const Iterator
-  NAME_SPACE::vector<int> myvector;
-  for (int i=0; i<10; i++) myvector.push_back(i);	// myvector: 0 1 2 3 4 5 6 7 8 9
+  // NAME_SPACE::vector<int> myvector;
+  // for (int i=0; i<10; i++) myvector.push_back(i);	// myvector: 0 1 2 3 4 5 6 7 8 9
+
+  // NAME_SPACE::vector<int> v(11, 100);
+  // for (int i = 0; i < myvector.size(); i++)
+  //   std::cout <<myvector[i]<<" ";
+  // std::cout << "\n";
+  // myvector.assign(myvector.begin(), myvector.begin() + 3);
+  // for (int i = 0; i < myvector.size(); i++)
+  //   std::cout <<myvector[i]<<" ";
+  // std::cout << "\n";
+  NAMESPACE::vector<int> vec;
+        NAMESPACE::vector<int> vec1(10,7);
+        NAMESPACE::vector<int>::iterator it;
+        NAMESPACE::vector<int>::iterator it1;
+        NAMESPACE::vector<int>::iterator it2;
+        NAMESPACE::vector<int>::iterator vit = vec1.begin();
+        NAMESPACE::vector<int>::iterator vit1 = vec1.end();
+        for (int i = 5; i >= 0; i--) {
+            vec.push_back(i);
+        }
+        std::cout << "ft::capacity : " << vec1.capacity() << std::endl;
+        std::cout << "ft::size : " << vec1.size() << std::endl;
+        it = vec.begin();
+        it1 = vec.end();
+        vec1.insert(vit, 500, -100);
+        // it = vec.begin();
+        // vec.insert(it + 2, 100);
+        // it = vec.begin();
+        // vec.insert(it + 2, 100);
+        // it = vec.begin();
+        // vec.insert(it + 2, 100);
+        // std::cout << "it2 = " << *(it2) << std::endl;
+        it = vec1.begin();
+        it1 = vec1.end();
+        while (it != it1) {
+            std::cout << "element = " << *it << std::endl;
+            it++;
+        }
+        std::cout << "ft::capacity : " << vec1.capacity() << std::endl;
+        std::cout << "ft::size : " << vec1.size() << std::endl;
 
 
-  NAME_SPACE::vector<int>::const_reverse_iterator rev_it = \
-  myvector.rbegin();
-
-  std::cout << "The fourth element from the end is: " << *rev_it << '\n';
-
-  // ci1 = vec.begin();//implisite cast of iterator to const iterator
-  // std::cout <<"ci1 = "<<*ci1<< std::endl;
   //################
   return 0;
 
