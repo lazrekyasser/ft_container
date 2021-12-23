@@ -21,15 +21,7 @@ int main() {
 //   NS::pair<int, int> p1(1, 20);
 //   NS::pair<int, int> p2(1, 10);
 //   std::cout <<"compaire "<<(p2 > p1)<< std::endl;
-  // std::cout <<"first |"<<p.first<<"| second |"<<p.second<<"|"<< std::endl;
-  NS::vector<int> v;
-  for (int i =0; i < 10; i++) v.push_back(i);
-  NS::vector<int>::reverse_iterator ri1 = v.rbegin();
-  NS::vector<int>::reverse_iterator ri2 = v.rend();
-
-  while (ri1 != ri2) {
-    std::cout << *ri1 << " ";
-    ri1++;
-  }
-  std::cout << std::endl;
+//   NS::pair<std::string, int> p;
+//   std::cout <<"first |"<<p.first<<"| second |"<<p.second<<"|"<< std::endl;
+  
 }

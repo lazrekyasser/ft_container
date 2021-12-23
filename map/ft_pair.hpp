@@ -12,6 +12,7 @@ namespace ft {
         //Constructor
             //default
         pair() {
+            first = first_type();
             second = second_type();
         }
             //copy
@@ -27,8 +28,10 @@ namespace ft {
         }
         //operator =
         pair& operator= (const pair& pr) {
-            first = pr.first;
-            second = pr.second;
+            if (this != &pr) {
+                first = pr.first;
+                second = pr.second;
+            }
             return *this;
         }
     };
