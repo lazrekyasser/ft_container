@@ -11,21 +11,12 @@ namespace ft {
         second_type     second;
         //Constructor
             //default
-        pair() {
-            first = first_type();
-            second = second_type();
-        }
+        pair() : first(first_type()), second(second_type()) {}
             //copy
         template<class U, class V>
-        pair (const pair<U,V>& pr) {
-            first = pr.first;
-            second = pr.second;
-        }
+        pair (const pair<U,V>& pr) : first(pr.first), second(pr.second) {}
             //initialization
-        pair (const first_type& a, const second_type& b) {
-            first = a;
-            second = b;
-        }
+        pair (const first_type& a, const second_type& b) : first(a), second(b) {}
         //operator =
         pair& operator= (const pair& pr) {
             if (this != &pr) {
