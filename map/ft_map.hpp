@@ -57,12 +57,22 @@ namespace ft {
 			//Constructor
 			explicit map (const key_compare& comp = key_compare(),
 			  	const allocator_type& alloc = allocator_type()) : _alloc(alloc), _keyComp(comp) {
-					this->_comp =  new value_compare(comp);
+					this->_comp =  new value_compare(comp);////////////
 					this->_size = 0;
 					this->_root = NULL;//init Node
 			}
 			//////////
 			//tool's
+			void deleteNode(Node<value_type> *node) {
+				if (node == NULL)
+					return ;
+				deleteNode(node->left);
+				deleteNode(node->right);
+				this->_alloc.destroy(node->data);
+				this->_alloc.deallocate(node->data, 1);
+				this->_nAlloc.deallocate(node, 1);
+				--this->_size;
+			}
 			Node<value_type> *newNode(const value_type & val) {
 				Node<value_type> *node = NULL;
 				node = this->_nAlloc.allocate(1);
@@ -130,6 +140,32 @@ namespace ft {
 				// 	return insert_(root->right, val);
 				// }
 			}
+			void r_rotation(Node<value_type> *node) {
+				Node<value_type> *a = node;
+				Node<value_type> *p = a->parent;
+				Node<value_type> *b = a->left;
+				Node<value_type> *d = b->right;
+				
+				if (p != NULL) {
+					if (p->left == a)
+						p->left = b;
+					else if (p->right == a)
+						p->right = b;
+					b->parent = p;
+				}
+				else {
+					this->_root = b;
+					b->parent = NULL;
+				}
+				a->left = d;
+				a->parent = b;
+				b->right = a;
+				if (d)
+					d->parent = a;
+			}
+			Node<value_type> *getRoot(void) {
+				return this->_root;
+			}
 			void accedeTo(Node<value_type> *root, int i) {
 				int j = 0;
 				while (i > 0) {
@@ -142,12 +178,13 @@ namespace ft {
 					++j;
 					--i;
 				}
+				//call parent while is diff to NULL////!!!!!!!!!!!!!!
 				std::cout <<"acced = "<<root->data->first<< " | ";
 			}
 			void calcule_FactB(Node<value_type> *root) {
 				///root balance here if no balance
-				for (size_t i = this->_pathInsert.size() - 1; i > 0; --i) {
-					accedeTo(root, i);
+				for (size_t i = this->_pathInsert.size() - 1; i > 0; --i) {//from pathSize to parent'ssss
+					accedeTo(root, i);//!!!!!!ONe Timee
 				}
 				std::cout << std::endl;
 			}
@@ -175,7 +212,7 @@ namespace ft {
 							const allocator_type& alloc = allocator_type());	
 			map (const map& x);
 			//Destructor
-			~map() {}
+			~map() {delete this->_comp;}//heyed new delete
 			//oprator =
 			map& operator= (const map& x);
 			//Iterator
@@ -212,7 +249,11 @@ namespace ft {
 			// 	//Swap
 			// void swap (map& x);
 			// 	//clear
-			// void clear();
+			void clear() {
+				if (this->_size == 0 || this->_root == NULL)
+					return ;
+				this->deleteNode(this->_root);
+			}
 			// //Observers
 			// key_compare key_comp() const;
 			// value_compare value_comp() const;

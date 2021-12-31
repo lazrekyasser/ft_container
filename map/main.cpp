@@ -34,17 +34,18 @@ int main() {
 		// }
 		
 		// std::cout <<"m size = "<<m.size()<<" mymap size = "<<mymap.size()<<std::endl;
-	ft::pair<const int, int> p1(3, 1);
-	ft::pair<const int, int> p2(1, 1);
-	ft::pair<const int, int> p3(2, 1);
-	ft::pair<const int, int> p4(5, 1);
-	ft::pair<const int, int> p5(0, 1);
-	ft::pair<const int, int> p6(7, 1);
-	ft::pair<const int, int> p7(71, 1);
-	ft::pair<const int, int> p8(77, 1);
-	ft::pair<const int, int> p9(-7, 1);
-	ft::pair<const int, int> p10(19, 1);
-	ft::map<int, int> mymap;
+	NS::pair<const int, int> p1(3, 1);
+	NS::pair<const int, int> p2(1, 1);
+	NS::pair<const int, int> p3(2, 1);
+	NS::pair<const int, int> p4(5, 1);
+	NS::pair<const int, int> p5(0, 1);
+	NS::pair<const int, int> p6(7, 1);
+	NS::pair<const int, int> p7(71, 1);
+	NS::pair<const int, int> p8(77, 1);
+	NS::pair<const int, int> p9(-7, 1);
+	NS::pair<const int, int> p10(19, 1);
+	NS::pair<const int, int> p11(8, 1);
+	NS::map<int, int> mymap;
 
 	mymap.insert(p1);
 	mymap.insert(p2);
@@ -56,6 +57,9 @@ int main() {
 	mymap.insert(p8);
 	mymap.insert(p9);
 	mymap.insert(p10);
+	mymap.insert(p11);
 		mymap.print(mymap.getRootT());
 		mymap.affichPath();
+	mymap.r_rotation(mymap.getRoot());
+		mymap.print(mymap.getRootT());
 }
