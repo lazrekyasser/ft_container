@@ -7,7 +7,7 @@
 
 
 int main() {
-//     NS::pair <std::string,int> product1;                     // default constructor
+//     std::pair <std::string,int> product1;                     // default constructor
 //   std::pair <std::string,int> product2 ("tomatoes",1);   // value init
 //   std::pair <std::string,int> product3 (product2);          // copy constructor
 // std::vector<int> v;
@@ -47,19 +47,39 @@ int main() {
 	NS::pair<const int, int> p11(8, 1);
 	NS::map<int, int> mymap;
 
-	mymap.insert(p1);
-	mymap.insert(p2);
+	NS::pair<NS::map<int,int>::iterator, bool> ret =  mymap.insert(p1);
+	NS::pair<NS::map<int,int>::iterator, bool> ret1 =  mymap.insert(p1);
+	// std::cout <<ret.second<<std::endl;
+	// std::cout <<(*ret.first).first<<std::endl;
+	// std::cout <<ret1.second<<std::endl;
+	// std::cout <<(*ret1.first).first<<std::endl;
+	NS::pair<NS::map<int,int>::iterator, bool> ret2 = mymap.insert(p2);
+	// std::cout <<ret2.second<<std::endl;
+	// std::cout <<(*ret2.first).first<<std::endl;
 	mymap.insert(p3);
 	mymap.insert(p4);
-	mymap.insert(p5);
+	mymap.insert(p5);///////////add it
 	mymap.insert(p6);
 	mymap.insert(p7);
 	mymap.insert(p8);
 	mymap.insert(p9);
 	mymap.insert(p10);
 	mymap.insert(p11);
-		mymap.print(mymap.getRootT());
-		mymap.affichPath();
-	mymap.r_rotation(mymap.getRoot());
-		mymap.print(mymap.getRootT());
+	// #if NS == "std"
+	// 	std::cout <<"ndjdjk\n";
+	// 	// #if NS == ft
+	// 	// #endif
+	// #endif
+			mymap.print(mymap.getRootT());mymap.affichPath();
+	// NS::map<int, int>::iterator it(mymap.begin());
+	// std::cout <<"it = "<<(*it).first<<std::endl;
+	// ++it;
+	// ++it;++it;++it;
+	// ++it;
+	// std::cout <<"it = "<<(*it).first<<std::endl;
+	// ++it;
+	// if (it != NULL)
+	// 	std::cout <<(*it).data->first<< std::endl;
+	// mymap.r_rotation(mymap.getRoot());
+	// 	mymap.print(mymap.getRootT());
 }

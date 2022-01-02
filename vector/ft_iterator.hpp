@@ -20,7 +20,7 @@ namespace ft {
 	class my_iterator : public iterator<std::random_access_iterator_tag, T> {
 		public:
 			typedef typename iterator<std::random_access_iterator_tag, T>::value_type value_type;
-			// typedef typename iterator<std::random_access_iterator_tag, T>::const_value_type const_value_type;
+			typedef typename iterator<std::random_access_iterator_tag, T>::iterator_category iterator_category;
 			typedef typename iterator<std::random_access_iterator_tag, T>::pointer	pointer;
 			typedef typename iterator<std::random_access_iterator_tag, T>::reference	reference;
 			typedef typename iterator<std::random_access_iterator_tag, T>::difference_type	difference_type;
@@ -88,27 +88,26 @@ namespace ft {
 			my_iterator	operator-(const difference_type &b) const {
 				return my_iterator(this->_ip - b);
 			}
-			/*
+		
 	
-	bool	operator ==(const iterator &b) {
-		return (a.base() == b.base());
+	bool	operator ==(const my_iterator &b) {
+		return (this->base() == b.base());
 	}
-	bool	operator !=(const iterator &b) {
-		return  (a.base() != b.base());
+	bool	operator !=(const my_iterator &b) {
+		return  (this->base() != b.base());
 	}
-	bool	operator <(const iterator &b) {
-		return (a.base() < b.base());
+	bool	operator <(const my_iterator &b) {
+		return (this->base() < b.base());
 	}
-	bool	operator >(const iterator &b) {
-		return (a.base() > b.base());//compare addresses
+	bool	operator >(const my_iterator &b) {
+		return (this->base() > b.base());//compare addresses
 	}
-	bool	operator <=(const iterator &b) {
-		return (a.base() <= b.base());
+	bool	operator <=(const my_iterator &b) {
+		return (this->base() <= b.base());
 	}
-	bool	operator >=(const iterator &b) {
-		return (a.base() >= b.base());
+	bool	operator >=(const my_iterator &b) {
+		return (this->base() >= b.base());
 	}
-			*/
 			pointer	 base(void) const {
 				return this->_ip;
 			}
@@ -200,55 +199,54 @@ namespace ft {
 			pointer	 base(void) const {
 				return this->_ip;
 			}
-			/*
+		
 	
 	bool	operator ==(const reverse_iterator &b) {
-		return (a.base() == b.base());
+		return (this->base() == b.base());
 	}
 	bool	operator !=(const reverse_iterator &b) {
-		return  (a.base() != b.base());
+		return  (this->base() != b.base());
 	}
 	bool	operator <(const reverse_iterator &b) {
-		return (a.base() < b.base());
+		return (this->base() < b.base());
 	}
 	bool	operator >(const reverse_iterator &b) {
-		return (a.base() > b.base());//compare addresses
+		return (this->base() > b.base());//compare addresses
 	}
 	bool	operator <=(const reverse_iterator &b) {
-		return (a.base() <= b.base());
+		return (this->base() <= b.base());
 	}
 	bool	operator >=(const reverse_iterator &b) {
-		return (a.base() >= b.base());
+		return (this->base() >= b.base());
 	}
-			*/
 		private:
 			pointer _ip;//iterator::pointer
 	};
 	//comparison operator // non-membre function
-	template<class Iterator1, class Iterator2>
-	bool	operator ==(const Iterator1 &a, const Iterator2 &b) {
-		return (a.base() == b.base());
-	}
-	template<class Iterator1, class Iterator2>
-	bool	operator !=(const Iterator1 &a, const Iterator2 &b) {
-		return  (a.base() != b.base());
-	}
-	template<class Iterator1, class Iterator2>
-	bool	operator <(const Iterator1 &a, const Iterator2 &b) {
-		return (a.base() < b.base());
-	}
-	template<class Iterator1, class Iterator2>
-	bool	operator >(const Iterator1 &a, const Iterator2 &b) {
-		return (a.base() > b.base());//compare addresses
-	}
-	template<class Iterator1, class Iterator2>
-	bool	operator <=(const Iterator1 &a, const Iterator2 &b) {
-		return (a.base() <= b.base());
-	}
-	template<class Iterator1, class Iterator2>
-	bool	operator >=(const Iterator1 &a, const Iterator2 &b) {
-		return (a.base() >= b.base());
-	}
+	// template<class Iterator1, class Iterator2>
+	// bool	operator ==(const Iterator1 &a, const Iterator2 &b) {
+	// 	return (a.base() == b.base());
+	// }
+	// template<class Iterator1, class Iterator2>
+	// bool	operator !=(const Iterator1 &a, const Iterator2 &b) {
+	// 	return  (a.base() != b.base());
+	// }
+	// template<class Iterator1, class Iterator2>
+	// bool	operator <(const Iterator1 &a, const Iterator2 &b) {
+	// 	return (a.base() < b.base());
+	// }
+	// template<class Iterator1, class Iterator2>
+	// bool	operator >(const Iterator1 &a, const Iterator2 &b) {
+	// 	return (a.base() > b.base());//compare addresses
+	// }
+	// template<class Iterator1, class Iterator2>
+	// bool	operator <=(const Iterator1 &a, const Iterator2 &b) {
+	// 	return (a.base() <= b.base());
+	// }
+	// template<class Iterator1, class Iterator2>
+	// bool	operator >=(const Iterator1 &a, const Iterator2 &b) {
+	// 	return (a.base() >= b.base());
+	// }
 	//a - b
 	template <class Iterator>
 	typename Iterator::difference_type operator-(const Iterator &a, const Iterator &b) {
