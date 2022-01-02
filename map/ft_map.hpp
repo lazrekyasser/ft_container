@@ -32,6 +32,22 @@ namespace ft {
 			}
 			return tmp;
 		}
+		Node* predecessor() {
+			Node* root = this;
+			if (!root) return nullptr;
+			root = root->left;
+			while (root->right)
+				root = root->right;
+			return root;
+		}
+		Node* successor() {
+			Node* root = this;
+			if (!root) return nullptr;
+			root = root->right;
+			while (root->left)
+				root = root->left;
+			return root;
+		}
 		typedef T			value_type;
 	};
 	//Map
@@ -333,7 +349,6 @@ namespace ft {
 				//Insert
 			ft::pair<iterator,bool> insert (const value_type& val) {
 				//cherck if ele is already in=>return pair<iterator to this element, false>  
-				
 				ft::pair<iterator, bool> ret = insert_(this->_root, val);//make paire here to return it
 				if (this->_size >= 3 && this->_pathInsert.size() > 1) {//propapiliter de prob when path>=2
 					//balancin
@@ -341,7 +356,10 @@ namespace ft {
 				}
 				return ret;
 			}
-			// iterator insert (iterator position, const value_type& val);	
+			iterator insert(iterator position, const value_type& val) {
+				// (*this->_comp)(val, *(root->data))
+				
+			}
 			// template <class InputIterator>
 			// void insert (InputIterator first, InputIterator last);
 			// 	//Erase
