@@ -561,11 +561,8 @@ namespace ft {
 			}
 			Node<value_type> *balance_tl(Node<value_type> *root) {
 				Node<value_type> *x = root;
-				std::cout <<"x = "<<x->data->first<<std::endl;
 				Node<value_type> *y = tallerChild(x);
-				std::cout <<"y = "<<y->data->first<<std::endl;
 				Node<value_type> *z = tallerChild(y);
-				std::cout <<"y = "<<z->data->first<<std::endl;
 
 				return tri_node_restructure(x, y, z);
  			}
@@ -753,8 +750,17 @@ namespace ft {
 					}
 				}
 			}
-			// size_type erase (const key_type & k);
-			// void erase (iterator first, iterator last);
+			size_type erase (const key_type & k) {
+				iterator position = this->find(k);
+				if (position != this->end())////
+					this->erase(position);
+			}
+			void erase (iterator first, iterator last) {
+				while (first != last) {
+					this->erase(first);
+					++first;
+				}
+			}
 			// 	//Swap
 			// void swap (map& x);
 			// 	//clear

@@ -254,4 +254,12 @@ int main()
     std::cout <<"-------------------\n";
     map.printTreeHelper(map.getRoot(), 0);
     map.print(map.getRoot());
+    
+    it = map.begin();
+    ++it;
+    map.erase(it);
+    std::cout <<"-------------------\n";
+    map.printTreeHelper(map.getRoot(), 0);
+    map.print(map.getRoot());
+    
 }
