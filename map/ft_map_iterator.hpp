@@ -2,6 +2,7 @@
 #define FT_MAP_ITERATOR_HPP
 
 #include "../vector/ft_iterator.hpp"
+#include "../vector/ft_iterator_traits.hpp"
 #include <iostream>
 
 namespace ft {
@@ -9,6 +10,7 @@ namespace ft {
     class map_iterator : public ft::iterator<std::bidirectional_iterator_tag, T> {
         public:
             typedef typename iterator<std::bidirectional_iterator_tag, T>::value_type::value_type value_type;
+            typedef typename iterator<std::bidirectional_iterator_tag, T>::value_type val_type;
             typedef typename iterator<std::bidirectional_iterator_tag, T>::iterator_category iterator_category;
             typedef typename iterator<std::bidirectional_iterator_tag, T>::pointer	pointer;
             typedef typename iterator<std::bidirectional_iterator_tag, T>::reference	reference;
@@ -16,6 +18,8 @@ namespace ft {
 
             map_iterator(void) : _ip(nullptr) {}
             map_iterator(map_iterator const & src) : _ip(src._ip) {}
+            map_iterator(pointer ip, pointer end) : _ip(ip), _end(end) {
+            }
             map_iterator(pointer ip) : _ip(ip) {}
 
             ~map_iterator(void) {}
@@ -42,92 +46,54 @@ namespace ft {
 			}
             //inc and dec
             map_iterator&	operator++() {//++a
-                std::cout <<"pre inc\n";
-                if (this->_ip != NULL) {
-                    if (this->_ip->right != NULL) {
-                        pointer succ = this->_ip;
-                        while (succ->right != NULL)///wa9ila ghalate hhh
-                            succ = succ->right->minimum();
-                        this->_ip = succ;
-                        /*
-                        if (succ->right != NUll)
-                            this->_ip = succ->right->minimum();
-                        */
-                    }
-                    else {
-                        pointer tmp = this->_ip;
-                        if (tmp->parent && tmp->parent->left == tmp) {
-                            tmp = tmp->parent;
-                            this->_ip = tmp;
-                        }
-                        else {
-                            this->_ip = NULL;
-                        }
-                    }
+                if (this->_ip == _end) {
+                    this->_ip = NULL;
+                }
+                else if (this->_ip == this->_ip->maxTree()) {
+                    this->_ip = _end;
+                }
+                else {
+                    this->_ip = this->_ip->successor();
                 }
 				return *this;
 			}
 			map_iterator&	operator--() {//--a
                 std::cout <<"pre dec\n";
-                if (this->_ip != NULL) {
-                    if (this->_ip->left != NULL) {
-                        pointer pre = this->_ip;
-                        while (pre->left != NULL)
-                            pre = pre->left->maximum();
-                        this->_ip = pre;
-                    }
-                    else {
-                        pointer tmp = this->_ip;
-                        if (tmp->parent && tmp->parent->right == tmp) {
-                            tmp = tmp->parent;
-                            this->_ip = tmp;
-                        }
-                        else {
-                            this->_ip = NULL;
-                        }
-                    }
+                if (this->_ip == _rend) {
+                    this->_ip = NULL;
+                }
+                else if (this->_ip == this->_ip->minTree()) {
+                    this->_ip = _end;
+                }
+                else {
+                    this->_ip = this->_ip->predecessor();
                 }
 				return *this;
 			}
 			map_iterator		operator++(int) {//a++
 				map_iterator ret(*this);
-                if (this->_ip != NULL) {
-                    if (this->_ip->right != NULL) {
-                        pointer succ = this->_ip;
-                        while (succ->right != NULL)
-                            succ = succ->right->minimum();
-                        this->_ip = succ;
-                    }
-                    else {
-                        pointer tmp = this->_ip;
-                        if (tmp->parent && tmp->parent->left == tmp) {
-                            tmp = tmp->parent;
-                            this->_ip = tmp;
-                        }
-                        else {
-                            this->_ip = NULL;
-                        }
-                    }
+                if (this->_ip == _end) {
+                    this->_ip = NULL;
+                }
+                else if (this->_ip == this->_ip->maxTree()) {
+                    this->_ip = _end;
+                }
+                else {
+                    this->_ip = this->_ip->successor();
                 }
 				return ret;
 			}
 			map_iterator		operator--(int) {//a--
                 std::cout <<"post dec\n";
 				map_iterator ret(*this);
-                if (this->_ip != NULL) {
-                    if (this->_ip->left != NULL) {
-                        pointer pre = this->_ip;
-                        while (pre->left != NULL)
-                            pre = pre->left->maximum();
-                        this->_ip = pre;
-                    }
-                    else {
-                        pointer tmp = this->_ip;
-                        if (tmp->parent && tmp->parent->right == tmp) {
-                            tmp = tmp->parent;
-                        }
-                        this->_ip = tmp;
-                    }
+                if (this->_ip == _rend) {
+                    this->_ip = NULL;
+                }
+                else if (this->_ip == this->_ip->minTree()) {
+                    this->_ip = _end;
+                }
+                else {
+                    this->_ip = this->_ip->predecessor();
                 }
 				return ret;
 			}
@@ -137,6 +103,8 @@ namespace ft {
             }
         private:
             pointer _ip;
+            pointer _end;
+            pointer _rend;////////
     };
 }
 
