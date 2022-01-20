@@ -137,8 +137,134 @@
 // 	// mymap.print(mymap.getRootT());
 // 	mymap.printTreeHelper(mymap.getRootT(), 0);
 // }
-int main()
-{
+
+// int main()
+// {
+//     ft::map<int,int> map;
+
+//     ft::pair<int,int> p1(10,10);
+//     ft::pair<int,int> p2(50,10);
+//     ft::pair<int,int> p3(20,10);
+//     ft::pair<int,int> p4(25,10);
+//     ft::pair<int,int> p5(15,10);
+//     ft::pair<int,int> p6(30,10);
+//     ft::pair<int,int> p7(22,10);
+//     ft::pair<int,int> p8(36,10);///
+//     ft::pair<int,int> p9(24,10);
+//     ft::pair<int,int> p10(32,10);
+//     ft::pair<int,int> p11(37,10);
+//     ft::pair<int,int> p12(38,10);
+//     ft::pair<int,int> p13(40,10);
+//     ft::pair<int,int> p14(35,10);
+
+//     ft::pair<int,int> p15(27,10);
+//     ft::pair<int,int> p16(26,10);
+//     ft::pair<int,int> p17(21,10);
+//     ft::pair<int,int> p18(99,10);
+//     ft::pair<int,int> p20(34,10);
+//     ft::pair<int,int> p19(39,10);
+
+//     map.insert(p1);
+//     map.insert(p2);
+//     map.insert(p3);
+//     map.insert(p4);
+//     map.insert(p5);
+//     map.insert(p6);
+//     map.insert(p7);
+//     map.insert(p8);
+//     map.insert(p9);
+//     map.insert(p10);
+//     map.insert(p11);
+//     map.insert(p12);
+//     map.insert(p13);
+//     map.insert(p14);
+//     map.insert(p15);
+//     map.insert(p16);
+//     map.insert(p17);
+//     map.insert(p18);
+//     map.insert(p20);
+//     map.insert(p19);
+	
+// 	ft::map<int, int>::iterator it = map.begin();
+// 	++it;++it;
+//     map.printTreeHelper(map.getRoot(), 0);
+//     map.erase(it);
+//     std::cout <<"-------------------\n";
+//     map.printTreeHelper(map.getRoot(), 0);
+//     map.print(map.getRoot());
+//     it = map.begin();
+//     ++it;
+//     map.erase(it);
+//     std::cout <<"-------------------\n";
+//     map.printTreeHelper(map.getRoot(), 0);
+//     map.print(map.getRoot());
+//     it = map.begin();
+//     ++it;++it;++it;
+//     ++it;++it;++it;++it;
+//     map.erase(it);
+//     std::cout <<"-------------------\n";
+//     map.printTreeHelper(map.getRoot(), 0);
+//     map.print(map.getRoot());
+//     it = map.begin();
+//     ++it;++it;++it;
+//     ++it;++it;++it;++it;
+//     map.erase(it);
+//     std::cout <<"-------------------\n";
+//     map.printTreeHelper(map.getRoot(), 0);
+//     map.print(map.getRoot());
+//     it = map.begin();
+//     ++it;++it;++it;
+//     ++it;++it;++it;++it;
+//     ++it;++it;++it;++it;
+//     map.erase(it);
+//     std::cout <<"-------------------\n";
+//     map.printTreeHelper(map.getRoot(), 0);
+//     map.print(map.getRoot());
+//     it = map.begin();
+    
+//     map.erase(it);
+//     std::cout <<"-------------------\n";
+//     map.printTreeHelper(map.getRoot(), 0);
+//     map.print(map.getRoot());
+//     it = map.begin();
+//     ++it;++it;++it;
+//     ++it;++it;
+//     map.erase(it);
+//     std::cout <<"-------------------\n";
+//     map.printTreeHelper(map.getRoot(), 0);
+//     map.print(map.getRoot());
+//     it = map.begin();
+//     ++it;++it;
+//     map.erase(it);
+//     std::cout <<"-------------------\n";
+//     map.printTreeHelper(map.getRoot(), 0);
+//     map.print(map.getRoot());
+//     it = map.begin();
+//     ++it;++it;++it;
+//     map.erase(it);
+//     std::cout <<"-------------------\n";
+//     map.printTreeHelper(map.getRoot(), 0);
+//     map.print(map.getRoot());
+//     it = map.begin();
+//     map.erase(it);
+//     std::cout <<"-------------------\n";
+//     map.printTreeHelper(map.getRoot(), 0);
+//     map.print(map.getRoot());
+//     it = map.begin();
+//     map.erase(it);
+//     std::cout <<"-------------------\n";
+//     map.printTreeHelper(map.getRoot(), 0);
+//     map.print(map.getRoot());
+    
+//     it = map.begin();
+//     ++it;
+//     map.erase(it);
+//     std::cout <<"-------------------\n";
+//     map.printTreeHelper(map.getRoot(), 0);
+//     map.print(map.getRoot());
+    
+// }
+int main() {
     ft::map<int,int> map;
 
     ft::pair<int,int> p1(10,10);
@@ -151,18 +277,6 @@ int main()
     ft::pair<int,int> p8(36,10);///
     ft::pair<int,int> p9(24,10);
     ft::pair<int,int> p10(32,10);
-    ft::pair<int,int> p11(37,10);
-    ft::pair<int,int> p12(38,10);
-    ft::pair<int,int> p13(40,10);
-    ft::pair<int,int> p14(35,10);
-
-    ft::pair<int,int> p15(27,10);
-    ft::pair<int,int> p16(26,10);
-    ft::pair<int,int> p17(21,10);
-    ft::pair<int,int> p18(99,10);
-    ft::pair<int,int> p20(34,10);
-    ft::pair<int,int> p19(39,10);
-
     map.insert(p1);
     map.insert(p2);
     map.insert(p3);
@@ -173,93 +287,18 @@ int main()
     map.insert(p8);
     map.insert(p9);
     map.insert(p10);
-    map.insert(p11);
-    map.insert(p12);
-    map.insert(p13);
-    map.insert(p14);
-    map.insert(p15);
-    map.insert(p16);
-    map.insert(p17);
-    map.insert(p18);
-    map.insert(p20);
-    map.insert(p19);
-	
-	ft::map<int, int>::iterator it = map.begin();
-	++it;++it;
+    // ft::map<int, int>::reverse_iterator bg = map.rend();
+    // ft::map<int, int>::reverse_iterator en = map.rbegin();
+    int i = 10;
+    // --en;
+    // --en;
+    std::cout<<"node = "<<(*en).first<<"\n";
     map.printTreeHelper(map.getRoot(), 0);
-    map.erase(it);
-    std::cout <<"-------------------\n";
-    map.printTreeHelper(map.getRoot(), 0);
-    map.print(map.getRoot());
-    it = map.begin();
-    ++it;
-    map.erase(it);
-    std::cout <<"-------------------\n";
-    map.printTreeHelper(map.getRoot(), 0);
-    map.print(map.getRoot());
-    it = map.begin();
-    ++it;++it;++it;
-    ++it;++it;++it;++it;
-    map.erase(it);
-    std::cout <<"-------------------\n";
-    map.printTreeHelper(map.getRoot(), 0);
-    map.print(map.getRoot());
-    it = map.begin();
-    ++it;++it;++it;
-    ++it;++it;++it;++it;
-    map.erase(it);
-    std::cout <<"-------------------\n";
-    map.printTreeHelper(map.getRoot(), 0);
-    map.print(map.getRoot());
-    it = map.begin();
-    ++it;++it;++it;
-    ++it;++it;++it;++it;
-    ++it;++it;++it;++it;
-    map.erase(it);
-    std::cout <<"-------------------\n";
-    map.printTreeHelper(map.getRoot(), 0);
-    map.print(map.getRoot());
-    it = map.begin();
+    while (bg != en) {
+        std::cout <<"i = "<<i<<" | node = "<<(*en).first<<"\n";
+        i--;
+        --en;
+    }
     
-    map.erase(it);
-    std::cout <<"-------------------\n";
-    map.printTreeHelper(map.getRoot(), 0);
-    map.print(map.getRoot());
-    it = map.begin();
-    ++it;++it;++it;
-    ++it;++it;
-    map.erase(it);
-    std::cout <<"-------------------\n";
-    map.printTreeHelper(map.getRoot(), 0);
-    map.print(map.getRoot());
-    it = map.begin();
-    ++it;++it;
-    map.erase(it);
-    std::cout <<"-------------------\n";
-    map.printTreeHelper(map.getRoot(), 0);
-    map.print(map.getRoot());
-    it = map.begin();
-    ++it;++it;++it;
-    map.erase(it);
-    std::cout <<"-------------------\n";
-    map.printTreeHelper(map.getRoot(), 0);
-    map.print(map.getRoot());
-    it = map.begin();
-    map.erase(it);
-    std::cout <<"-------------------\n";
-    map.printTreeHelper(map.getRoot(), 0);
-    map.print(map.getRoot());
-    it = map.begin();
-    map.erase(it);
-    std::cout <<"-------------------\n";
-    map.printTreeHelper(map.getRoot(), 0);
-    map.print(map.getRoot());
-    
-    it = map.begin();
-    ++it;
-    map.erase(it);
-    std::cout <<"-------------------\n";
-    map.printTreeHelper(map.getRoot(), 0);
-    map.print(map.getRoot());
-    
+    return 0;
 }

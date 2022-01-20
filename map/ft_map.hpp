@@ -128,8 +128,8 @@ namespace ft {
 			typedef typename allocator_type::const_pointer           const_pointer;
 			typedef ft::map_iterator<Node<value_type> >				iterator;
 			typedef ft::map_iterator<const Node<value_type> >       const_iterator;
-			// typedef T           reverse_iterator;
-			// typedef T           const_reverse_iterator;
+			typedef ft::map_reverse_iterator<Node<value_type> >       reverse_iterator;
+			typedef ft::map_reverse_iterator<const Node<value_type> >       const_reverse_iterator;
 			typedef std::ptrdiff_t                          difference_type;
 			typedef size_t                                  size_type;
 
@@ -280,33 +280,22 @@ namespace ft {
 			}
 			int height(Node<value_type> * node)
 			{
-				/* base case tree is empty */
 				if (node == NULL)
 					return 0;
-			
-				/* If tree is not empty then
-				height = 1 + max of left
-					height and right heights */
 				return 1 + max(height(node->left),
 							height(node->right));
 			}
 			bool is_balanced(Node<value_type> *root) {
-				int lh; /* for height of left subtree */
-				int rh; /* for height of right subtree */
+				int lh;
+				int rh;
 			
-				/* If tree is empty then return true */
+
 				if (root == NULL)
 					return 1;
-			
-				/* Get the height of left and right sub trees */
 				lh = height(root->left);
 				rh = height(root->right);
-			
 				if (abs(lh - rh) <= 1 && is_balanced(root->left) && is_balanced(root->right))
 					return 1;
-			
-				/* If we reach here then
-				tree is not height-balanced */
 				return 0;
 			}
 			void accedeTo(Node<value_type> *root, int i) {
@@ -415,22 +404,44 @@ namespace ft {
 			//Iterator
 			iterator begin() {
 				if (this->_root == NULL)
-					return iterator(&this->_nullEnd, &this->_nullEnd);/////////////
-				return iterator(this->_root->minimum(), &this->_nullEnd);
+					return iterator();/////////////
+				return iterator(this->_root->minimum(), &this->_nullEnd,&this->_nullRend, this->_root);
 			}
 			const_iterator begin() const {
-				return const_iterator(this->_root->minimum(), &this->_nullEnd);
+				if (this->_root == NULL)
+					return const_iterator();/////////////
+				return const_iterator(this->_root->minimum(), &this->_nullEnd,&this->_nullRend, this->_root);
 			}
 			iterator end() {
-				return iterator(&this->_nullEnd, &this->_nullEnd);//pass &this->_nullRend
+				if (this->_root == NULL)
+					return iterator();
+				return iterator(&this->_nullEnd, &this->_nullEnd,&this->_nullRend, this->_root);//pass &this->_nullRend
 			}
 			const_iterator end() const {
-				return iterator(&this->_nullEnd, &this->_nullEnd);
+				if (this->_root == NULL)
+					return const_iterator();
+				return const_iterator(&this->_nullEnd, &this->_nullEnd,&this->_nullRend, this->_root);
 			}
-			// reverse_iterator rbegin();//&this->_nullRend, &this->_nullEnd, &this->_nullRend
-			// const_reverse_iterator rbegin() const;
-			// reverse_iterator rend();
-			// const_reverse_iterator rend() const;
+			reverse_iterator rbegin() {
+				if (!this->_root)
+					return reverse_iterator();
+				return reverse_iterator(this->_root->maximum(),&this->_nullEnd,&this->_nullRend, this->_root);
+			}
+			const_reverse_iterator rbegin() const {
+				if (!this->_root)
+					return const_reverse_iterator();
+				return const_reverse_iterator(this->_root->maximum(),&this->_nullEnd,&this->_nullRend, this->_root);
+			}
+			reverse_iterator rend() {
+				if (!this->_root)
+					return reverse_iterator();
+				return reverse_iterator(&_nullRend,&this->_nullEnd,&this->_nullRend, this->_root);
+			}
+			const_reverse_iterator rend() const {
+				if (!this->_root)
+					return reverse_iterator();
+				return reverse_iterator(&_nullRend,&this->_nullEnd,&this->_nullRend, this->_root);
+			}
 			//capacity 
 			bool empty() const {return this->_size == 0;}
 			size_type size() const {return this->_size;}
