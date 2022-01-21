@@ -264,41 +264,77 @@
 //     map.print(map.getRoot());
     
 // }
-int main() {
-    ft::map<int,int> map;
+//teste iterators
+// int main() {
+//     NS::map<int,int> map;
 
-    ft::pair<int,int> p1(10,10);
-    ft::pair<int,int> p2(50,10);
-    ft::pair<int,int> p3(20,10);
-    ft::pair<int,int> p4(25,10);
-    ft::pair<int,int> p5(15,10);
-    ft::pair<int,int> p6(30,10);
-    ft::pair<int,int> p7(22,10);
-    ft::pair<int,int> p8(36,10);///
-    ft::pair<int,int> p9(24,10);
-    ft::pair<int,int> p10(32,10);
-    map.insert(p1);
-    map.insert(p2);
-    map.insert(p3);
-    map.insert(p4);
-    map.insert(p5);
-    map.insert(p6);
-    map.insert(p7);
-    map.insert(p8);
-    map.insert(p9);
-    map.insert(p10);
-    // ft::map<int, int>::reverse_iterator bg = map.rend();
-    // ft::map<int, int>::reverse_iterator en = map.rbegin();
-    int i = 10;
-    // --en;
-    // --en;
-    std::cout<<"node = "<<(*en).first<<"\n";
-    map.printTreeHelper(map.getRoot(), 0);
-    while (bg != en) {
-        std::cout <<"i = "<<i<<" | node = "<<(*en).first<<"\n";
-        i--;
-        --en;
-    }
+//     NS::pair<int,int> p1(10,10);
+//     NS::pair<int,int> p2(50,10);
+//     NS::pair<int,int> p3(20,10);
+//     NS::pair<int,int> p4(25,10);
+//     NS::pair<int,int> p5(15,10);
+//     NS::pair<int,int> p6(30,10);
+//     NS::pair<int,int> p7(22,10);
+//     NS::pair<int,int> p8(36,10);///
+//     NS::pair<int,int> p9(24,10);
+//     NS::pair<int,int> p10(32,10);
+//     map.insert(p1);
+//     map.insert(p2);
+//     map.insert(p3);
+//     map.insert(p4);
+//     map.insert(p5);
+//     map.insert(p6);
+//     map.insert(p7);
+//     map.insert(p8);
+//     map.insert(p9);
+//     map.insert(p10);
+//     NS::map<int, int>::reverse_iterator rbg = map.rbegin();
+//     NS::map<int, int>::reverse_iterator ren = map.rend();
+//     int i = 0;
     
+//     // map.printTreeHelper(map.getRoot(), 0);
+//     while (rbg != ren) {
+//         std::cout <<"i = "<<i<<" | node = "<<(*rbg).first<<"\n";
+//         i++;
+//        ++rbg;
+//     }
+    
+//     return 0;
+// }
+
+//test swap
+int main ()
+{
+    ft::map<char,int> foo,bar;
+    ft::pair<char ,int> p1('x',100);
+    ft::pair<char ,int> p2('y',200);
+    
+    ft::pair<char ,int> p3('a',11);
+    ft::pair<char ,int> p4('b',22);
+    ft::pair<char ,int> p5('c',33);
+
+    // foo.insert(p1);
+    // foo.insert(p2);
+    foo['x']=100;
+    foo['y']=200;
+    foo['x']=foo['y'];
+
+    // bar.insert(p3);
+    // bar.insert(p4);
+    // bar.insert(p5);
+    bar['a']=11;
+    bar['b']=22;
+    bar['c']=33;
+
+    foo.swap(bar);
+
+    std::cout << "foo contains:\n";
+    for (ft::map<char,int>::iterator it=foo.begin(); it!=foo.end(); ++it)
+        std::cout << it->first << " => " << it->second << '\n';
+
+    std::cout << "bar contains:\n";
+    for (ft::map<char,int>::iterator it=bar.begin(); it!=bar.end(); ++it)
+        std::cout << it->first << " => " << it->second << '\n';
+
     return 0;
 }

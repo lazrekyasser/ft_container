@@ -67,7 +67,7 @@ namespace ft {
 				return *this;
 			}
 			map_iterator&	operator--() {//--a
-                std::cout <<"pre dec\n";
+        
                 if (this->_ip == _rend) {
                     this->_ip = NULL;
                 }
@@ -102,7 +102,7 @@ namespace ft {
 				return ret;
 			}
 			map_iterator		operator--(int) {//a--
-                std::cout <<"post dec\n";
+                
 				map_iterator ret(*this);
                 if (this->_ip == _rend) {
                     this->_ip = NULL;
@@ -155,7 +155,7 @@ namespace ft {
 				}
 				return *this;
             }
-            template<V>
+            template<typename V>
             operator map_reverse_iterator<V>() {
 				std::cout <<"V called\n";
 				return map_reverse_iterator<V>(this->_ip);
@@ -169,7 +169,6 @@ namespace ft {
             }
             //dereferenced as an rvalue
 			value_type&	operator*() {
-                this->operator--();
                 return *(this->_ip->data);
             }
             value_type*	operator->() {//NOT IN ALL CASES WORK
@@ -177,22 +176,7 @@ namespace ft {
 			}
             //inc and dec
             map_reverse_iterator&	operator++() {//++a
-                if (this->_ip == _end) {
-                    this->_ip = NULL;
-                }
-                else if (this->_ip == _rend) {
-                    this->_ip = this->_root->minTree();
-                }
-                else if (this->_ip == this->_root->maxTree()) {
-                    this->_ip = _end;
-                }
-                else {
-                    this->_ip = this->_ip->successor();
-                }
-				return *this;
-			}
-			map_reverse_iterator&	operator--() {//--a
-                std::cout <<"pre dec\n";
+        
                 if (this->_ip == _rend) {
                     this->_ip = NULL;
                 }
@@ -205,10 +189,10 @@ namespace ft {
                 else {
                     this->_ip = this->_ip->predecessor();
                 }
-				return *this;
+				return *this; 
 			}
-			map_reverse_iterator		operator++(int) {//a++
-				map_reverse_iterator ret(*this);
+			map_reverse_iterator&	operator--() {//--a
+                
                 if (this->_ip == _end) {
                     this->_ip = NULL;
                 }
@@ -221,10 +205,10 @@ namespace ft {
                 else {
                     this->_ip = this->_ip->successor();
                 }
-				return ret;
+				return *this;
 			}
-			map_reverse_iterator		operator--(int) {//a--
-                std::cout <<"post dec\n";
+			map_reverse_iterator		operator++(int) {//a++
+				
 				map_reverse_iterator ret(*this);
                 if (this->_ip == _rend) {
                     this->_ip = NULL;
@@ -237,6 +221,23 @@ namespace ft {
                 }
                 else {
                     this->_ip = this->_ip->predecessor();
+                }
+				return ret;
+			}
+			map_reverse_iterator		operator--(int) {//a--
+                
+                map_reverse_iterator ret(*this);
+                if (this->_ip == _end) {
+                    this->_ip = NULL;
+                }
+                else if (this->_ip == _rend) {
+                    this->_ip = this->_root->minTree();
+                }
+                else if (this->_ip == this->_root->maxTree()) {
+                    this->_ip = _end;
+                }
+                else {
+                    this->_ip = this->_ip->successor();
                 }
 				return ret;
 			}

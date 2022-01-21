@@ -289,7 +289,6 @@ namespace ft {
 				int lh;
 				int rh;
 			
-
 				if (root == NULL)
 					return 1;
 				lh = height(root->left);
@@ -400,7 +399,7 @@ namespace ft {
 				this->clear();
 			}//heyed new delete 
 			//operator =
-			map& operator= (const map& x);
+			map& operator= (const map& x);/////////
 			//Iterator
 			iterator begin() {
 				if (this->_root == NULL)
@@ -445,9 +444,17 @@ namespace ft {
 			//capacity 
 			bool empty() const {return this->_size == 0;}
 			size_type size() const {return this->_size;}
-			size_type max_size() const;
+			size_type max_size() const;//////////////
 			//Element access
-			mapped_type& operator[] (const key_type& k);
+			mapped_type& operator[] (const key_type& k) {
+				iterator e = find(k);
+				if (e != end()) {
+					return e->second;
+				}
+				value_type val = ft::make_pair(k, mapped_type());
+				ft::pair<iterator, bool> ret = this->insert(val);
+				return (ret.first)->second;
+			}
 			//Modifiers
 				//Insert
 			ft::pair<iterator,bool> insert (const value_type& val) {
@@ -763,8 +770,11 @@ namespace ft {
 			}
 			size_type erase (const key_type & k) {
 				iterator position = this->find(k);
-				if (position != this->end())////
+				if (position != this->end()) {////
 					this->erase(position);
+					return 1;
+				}
+				return 0;
 			}
 			void erase (iterator first, iterator last) {
 				while (first != last) {
@@ -773,7 +783,11 @@ namespace ft {
 				}
 			}
 			// 	//Swap
-			// void swap (map& x);
+			void swap (map& x) {
+				Node<value_type>	*tmp = this->_root;
+				this->_root = x._root;
+				x._root = tmp;
+			}
 			// 	//clear
 			void clear() {
 				if (this->_size == 0 || this->_root == NULL)
@@ -781,19 +795,22 @@ namespace ft {
 				this->deleteNode(this->_root);//root = NULL;
 			}
 			// //Observers
-			// key_compare key_comp() const;
-			// value_compare value_comp() const;
+			key_compare key_comp() const {
+				return key_compare();
+			}
+			value_compare value_comp() const {
+				return value_compare(key_compare());
+			}
 			// //Operation
 			// 	//find
 			iterator find (const key_type& k) {
-				const_iterator it = this->begin();
+				iterator it = this->begin();
 
 				while (it != this->end()) {
 					if (it->first == k)
 						return it;
 					it++;
 				}
-
 				return this->end();
 			}
 			const_iterator find (const key_type& k) const {
@@ -807,18 +824,35 @@ namespace ft {
 				return this->end();
 			}
 			// 	//count
-			// size_type count (const key_type& k) const;
+			size_type count (const key_type& k) const {
+				iterator e = find(k);
+				if (e != this->end())
+					return 1;
+				return 0;
+			}
 			// 	//lower_bound
-			// iterator lower_bound (const key_type& k);
+			iterator lower_bound (const key_type& k) {
+				iterator it = this->begin();
+
+				while (it != this->end()) {
+					if (!this->_comp(it->first, k))
+						return it;
+					it++;
+				}
+
+				return this->end();
+			}
 			// const_iterator lower_bound (const key_type& k) const;
 			// 	//upper_bound
-			// iterator upper_bound (const key_type& k);
+			iterator upper_bound (const key_type& k) {//if root ==NULL
+				
+			}
 			// const_iterator upper_bound (const key_type& k) const;
 			// 	//equal_range
 			// pair<const_iterator,const_iterator> equal_range (const key_type& k) const;
 			// pair<iterator,iterator>             equal_range (const key_type& k);
 			//get_allocator
-			// allocator_type get_allocator() const;
+			// allocator_type get_allocator() const { return this->_alloc;}//or nAlloc??
 		private:
 			Alloc       		_alloc;//for allocating value_type's
 			Compare     		_keyComp;//use functor to compare two key of pair's
