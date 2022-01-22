@@ -835,22 +835,71 @@ namespace ft {
 				iterator it = this->begin();
 
 				while (it != this->end()) {
-					if (!this->_comp(it->first, k))
+					if (!this->_keyComp(it->first, k))//it >= k
+						return it;
+					it++;
+				}
+				return this->end();
+				// std::cout <<"test lower bound\n";
+				// iterator l = this->begin();
+				// iterator r = this->end();
+				// --l;
+				// Node<value_type> * root = this->_root;
+				// while (root) {
+				// 	iterator m = iterator(root, &_nullEnd,&_nullRend, this->_root);
+				// 	if (this->_keyComp(k, m->first)) {//k < m
+				// 		r = m;
+				// 		root = root->left;
+				// 	}
+				// 	else if (this->_keyComp(m->first, k)) {//k > m
+				// 		l = m;
+				// 		root = root->right;
+				// 	}
+				// 	else
+				// 		return m;
+				// }
+				// return l;
+			}
+			const_iterator lower_bound (const key_type& k) const {
+				const_iterator it = this->begin();
+				
+				while (it != this->end()) {
+					if (!this->_keyComp(it->first, k))//it >= k
+						return it;
+					it++;
+				}
+				return this->end();
+			}
+			// 	//upper_bound
+			iterator upper_bound (const key_type& k) {//if root ==NULL
+				iterator it = this->begin();
+
+				while (it != this->end()) {
+					if (this->_comp(k, it->first))
 						return it;
 					it++;
 				}
 
 				return this->end();
 			}
-			// const_iterator lower_bound (const key_type& k) const;
-			// 	//upper_bound
-			iterator upper_bound (const key_type& k) {//if root ==NULL
-				
+			const_iterator upper_bound (const key_type& k) const {
+				const_iterator it = this->begin();
+
+				while (it != this->end()) {
+					if (this->_comp(k, it->first))
+						return it;
+					it++;
+				}
+
+				return this->end();
 			}
-			// const_iterator upper_bound (const key_type& k) const;
 			// 	//equal_range
-			// pair<const_iterator,const_iterator> equal_range (const key_type& k) const;
-			// pair<iterator,iterator>             equal_range (const key_type& k);
+			pair<const_iterator,const_iterator> equal_range (const key_type& k) const {
+				return ft::pair<const_iterator, const_iterator>(lower_bound(k), upper_bound(k));
+			}
+			pair<iterator,iterator>             equal_range (const key_type& k) {
+				return ft::pair<iterator, iterator>(lower_bound(k), upper_bound(k));
+			}
 			//get_allocator
 			// allocator_type get_allocator() const { return this->_alloc;}//or nAlloc??
 		private:
@@ -863,7 +912,6 @@ namespace ft {
 			value_compare		*_comp;///////////
 			Node<value_type>	_nullEnd;
 			Node<value_type>	_nullRend;
-			// Node<value_type>	*NillBegin;
 	};
 }
 

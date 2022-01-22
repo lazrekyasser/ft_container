@@ -303,38 +303,64 @@
 // }
 
 //test swap
-int main ()
-{
-    ft::map<char,int> foo,bar;
-    ft::pair<char ,int> p1('x',100);
-    ft::pair<char ,int> p2('y',200);
+// int main ()
+// {
+//     ft::map<char,int> foo,bar;
+//     ft::pair<char ,int> p1('x',100);
+//     ft::pair<char ,int> p2('y',200);
     
-    ft::pair<char ,int> p3('a',11);
-    ft::pair<char ,int> p4('b',22);
-    ft::pair<char ,int> p5('c',33);
+//     ft::pair<char ,int> p3('a',11);
+//     ft::pair<char ,int> p4('b',22);
+//     ft::pair<char ,int> p5('c',33);
 
-    // foo.insert(p1);
-    // foo.insert(p2);
-    foo['x']=100;
-    foo['y']=200;
-    foo['x']=foo['y'];
+//     // foo.insert(p1);
+//     // foo.insert(p2);
+//     foo['x']=100;
+//     foo['y']=200;
+//     foo['x']=foo['y'];
 
-    // bar.insert(p3);
-    // bar.insert(p4);
-    // bar.insert(p5);
-    bar['a']=11;
-    bar['b']=22;
-    bar['c']=33;
+//     // bar.insert(p3);
+//     // bar.insert(p4);
+//     // bar.insert(p5);
+//     bar['a']=11;
+//     bar['b']=22;
+//     bar['c']=33;
 
-    foo.swap(bar);
+//     foo.swap(bar);
 
-    std::cout << "foo contains:\n";
-    for (ft::map<char,int>::iterator it=foo.begin(); it!=foo.end(); ++it)
-        std::cout << it->first << " => " << it->second << '\n';
+//     std::cout << "foo contains:\n";
+//     for (ft::map<char,int>::iterator it=foo.begin(); it!=foo.end(); ++it)
+//         std::cout << it->first << " => " << it->second << '\n';
 
-    std::cout << "bar contains:\n";
-    for (ft::map<char,int>::iterator it=bar.begin(); it!=bar.end(); ++it)
-        std::cout << it->first << " => " << it->second << '\n';
+//     std::cout << "bar contains:\n";
+//     for (ft::map<char,int>::iterator it=bar.begin(); it!=bar.end(); ++it)
+//         std::cout << it->first << " => " << it->second << '\n';
 
+//     return 0;
+// }
+//test BOUND's
+int main() {
+    NS::map<int,int> map;
+
+    NS::pair<char,int> p1('b',10);
+    NS::pair<char,int> p2('c',10);
+    NS::pair<char,int> p3('a',10);
+    NS::pair<char,int> p4('r',10);
+    NS::pair<char,int> p5('v',10);
+    NS::pair<char,int> p6('g',10);
+
+    map.insert(p1);
+    map.insert(p2);
+    map.insert(p3);
+    map.insert(p4);
+    map.insert(p5);
+    map.insert(p6);
+    // map.printTreeHelper(map.getRoot(), 0);
+    char k = 'z';
+    NS::map<int,int>::iterator l = map.lower_bound(k);
+    NS::map<int,int>::iterator u = map.upper_bound(k);
+    
+    std::cout <<"lower_bound of "<<k<<" is "<<l->first<<"|"<<l->second<<"\n";
+    std::cout <<"upper_bound of "<<k<<" is "<<u->first<<"|"<<u->second<<"\n";
     return 0;
 }
