@@ -389,8 +389,39 @@ namespace ft {
 			template <class InputIterator>
 			map (InputIterator first, InputIterator last,
 							const key_compare& comp = key_compare(),
-							const allocator_type& alloc = allocator_type());	
-			map (const map& x);
+							const allocator_type& alloc = allocator_type()) : _alloc(alloc), _keyComp(comp) {
+								this->_comp =  new value_compare(comp);////////////
+								this->_size = 0;
+								this->_root = NULL;//init Node
+								//init the Null Node for the end of the map(allocate in the stack )
+								this->_nullEnd.data = this->_alloc.allocate(1);////
+								this->_nullEnd.right = nullptr;
+								this->_nullEnd.left = nullptr;
+								this->_nullEnd.parent = nullptr;
+								this->_nullRend.data = this->_alloc.allocate(1);////
+								this->_nullRend.right = nullptr;
+								this->_nullRend.left = nullptr;
+								this->_nullRend.parent = nullptr;
+								while (first != last) {
+									this->insert(*first);
+									++first;
+								}
+							}
+			map (const map& x) : _alloc(x._alloc), _keyComp(x._keyComp) {
+				this->_comp =  new value_compare(comp);////////////
+				this->_size = 0;
+				this->_root = NULL;//init Node
+				//init the Null Node for the end of the map(allocate in the stack )
+				this->_nullEnd.data = this->_alloc.allocate(1);////
+				this->_nullEnd.right = nullptr;
+				this->_nullEnd.left = nullptr;
+				this->_nullEnd.parent = nullptr;
+				this->_nullRend.data = this->_alloc.allocate(1);////
+				this->_nullRend.right = nullptr;
+				this->_nullRend.left = nullptr;
+				this->_nullRend.parent = nullptr;
+				*this = x;
+			}
 			//Destructor
 			~map() {
 				delete this->_comp;
@@ -399,7 +430,19 @@ namespace ft {
 				this->clear();
 			}//heyed new delete 
 			//operator =
-			map& operator= (const map& x);/////////
+			map& operator= (const map& x) {
+				if (this != &x ) {
+					delete this->_comp;
+					this->_alloc.deallocate(this->_nullEnd.data, 1);
+					this->_alloc.deallocate(this->_nullRend.data, 1);
+					this->clear();
+					if (x.size() > 0)
+						this->insert(x.begin(), x.end());
+					this->_alloc = x._alloc;//////
+					this->_keyComp = x.key_comp;
+				}
+				return *this;
+			}
 			//Iterator
 			iterator begin() {
 				if (this->_root == NULL)
@@ -414,7 +457,7 @@ namespace ft {
 			iterator end() {
 				if (this->_root == NULL)
 					return iterator();
-				return iterator(&this->_nullEnd, &this->_nullEnd,&this->_nullRend, this->_root);//pass &this->_nullRend
+				return iterator(&this->_nullEnd, &this->_nullEnd,&this->_nullRend, this->_root);
 			}
 			const_iterator end() const {
 				if (this->_root == NULL)
@@ -469,14 +512,13 @@ namespace ft {
 			iterator insert(iterator position, const value_type& val) {
 				Node<value_compare> *node;
 				if (!this->_root) {
-					std::cout <<"adgshgads\n";
 					ft::pair<iterator, bool> ret = this->insert(val);
 					return ret.first;
 				}
 				if (!(*this->_comp)(val, *position) && !(*this->_comp)(*position, val))
-					{
-						std::cout <<"cas de position == val";
-						return position;}
+				{
+					return position;
+				}
 				ft::pair<iterator, bool> ret = this->insert(val);
 				return ret.first;
 			}
@@ -908,8 +950,8 @@ namespace ft {
 			size_type			_size;
 			node_allocator		_nAlloc;//call def const of allocator<Node<value_type> >()
 			Node<value_type>	*_root;
-			std::vector<char>	_pathInsert;
 			value_compare		*_comp;///////////
+			std::vector<char>	_pathInsert;
 			Node<value_type>	_nullEnd;
 			Node<value_type>	_nullRend;
 	};
