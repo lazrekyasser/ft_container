@@ -5,6 +5,7 @@
 #include "ft_pair.hpp"
 #include <vector>
 #include "ft_map_iterator.hpp"
+#include "../vector/ft_enable_if.hpp"
 // #include "../vector/ft_iterator.hpp"
 
 ///NOTE'
@@ -26,26 +27,26 @@ namespace ft {
 			}
 			return tmp;
 		}
-		Node* maximum() {
+		Node* maximum()  {
 			Node* tmp = this;
 			while (tmp->right) {
 				tmp = tmp->right;
 			}
 			return tmp;
 		}
-		Node *maxTree() {
+		Node *maxTree()  {
 			Node *root = this;
 			while (root->parent)
 				root = root->parent;
 			return  root->maximum();
 		}
-		Node *minTree() {
+		Node *minTree()  {
 			Node *root = this;
 			while (root->parent)
 				root = root->parent;
 			return  root->minimum();
 		}
-		Node* predecessor() {
+		Node* predecessor()  {
 			Node *root = this;
 			if (root->left) {
 				return root->left->maximum();
@@ -69,8 +70,82 @@ namespace ft {
 			}
 			//return succ or the root ???? map.rend()
 		}
-		Node* successor() {
+		Node* successor()  {
 			Node *root = this;
+			if (root->right) {
+				return root->right->minimum();
+			}
+			else {
+				Node *succ = nullptr;
+				if (root->parent && root->parent->right == root) {
+					Node *p = root->parent;
+					while (p->parent && p->parent->right == p) {
+						p = p->parent;
+					}
+					if (p->parent && p->parent->left == p) {
+						succ = p->parent;
+					}
+					return succ;
+				}
+				else if (root->parent && root->parent->left == root) {
+					return root->parent;
+				}
+				return succ;
+			}
+			//return succ or the root ???? map.end()
+		}
+		Node* minimum() const {
+			Node* tmp = (Node*)this;
+			while (tmp->left) {
+				tmp = tmp->left;
+			}
+			return tmp;
+		}
+		Node* maximum() const  {
+			Node* tmp = (Node*)this;
+			while (tmp->right) {
+				tmp = tmp->right;
+			}
+			return tmp;
+		}
+		Node *maxTree() const  {
+			Node *root = (Node*)this;
+			while (root->parent)
+				root = root->parent;
+			return  root->maximum();
+		}
+		Node *minTree() const {
+			Node *root = (Node*)this;
+			while (root->parent)
+				root = root->parent;
+			return  root->minimum();
+		}
+		Node* predecessor() const {
+			Node *root = (Node*)this;
+			if (root->left) {
+				return root->left->maximum();
+			}
+			else {
+				Node *pre = nullptr;
+				if (root->parent && root->parent->left == root) {
+					Node *p = root->parent;
+					while (p->parent && p->parent->left == p) {
+						p = p->parent;
+					}
+					if (p->parent && p->parent->right == p) {
+						pre = p->parent;
+					}
+					return pre;
+				}
+				else if (root->parent && root->parent->right == root) {
+					return root->parent;
+				}
+				return pre;
+			}
+			//return succ or the root ???? map.rend()
+		}
+		Node* successor() const {
+			Node *root = (Node*)this;
 			if (root->right) {
 				return root->right->minimum();
 			}
@@ -120,18 +195,19 @@ namespace ft {
 						return comp(x.first, y.first);
 					}
 			};
-			typedef typename Alloc::template rebind<Node<value_type> >::other node_allocator;//other === allocator_type<Node<value_type>>
-			typedef Alloc                                            allocator_type;
-			typedef typename allocator_type::reference               reference;
-			typedef typename allocator_type::const_reference         const_reference;
-			typedef typename allocator_type::pointer                 pointer;
-			typedef typename allocator_type::const_pointer           const_pointer;
+			typedef typename Alloc::template rebind<Node<value_type> >::other	node_allocator;//other === allocator_type<Node<value_type>>
+			typedef typename Alloc::template rebind<value_compare>::other		comp_allocator;
+			typedef Alloc														allocator_type;
+			typedef typename allocator_type::reference							reference;
+			typedef typename allocator_type::const_reference					const_reference;
+			typedef typename allocator_type::pointer							pointer;
+			typedef typename allocator_type::const_pointer						const_pointer;
 			typedef ft::map_iterator<Node<value_type> >				iterator;
-			typedef ft::map_iterator<const Node<value_type> >       const_iterator;
-			typedef ft::map_reverse_iterator<Node<value_type> >       reverse_iterator;
-			typedef ft::map_reverse_iterator<const Node<value_type> >       const_reverse_iterator;
-			typedef std::ptrdiff_t                          difference_type;
-			typedef size_t                                  size_type;
+			typedef ft::map_iterator<const Node<value_type> >		const_iterator;
+			typedef ft::map_reverse_iterator<iterator >					reverse_iterator;
+			typedef ft::map_reverse_iterator<const_iterator >			const_reverse_iterator;
+			typedef std::ptrdiff_t												difference_type;
+			typedef size_t														size_type;
 
 			//////////
 			//tool's
@@ -148,6 +224,33 @@ namespace ft {
 					}
 					std::cout << root->data->first  << std::endl;
 					printTreeHelper(root->left, space);
+				}
+			}
+			void deleteNode_(Node<value_type> *node) {
+				while (node) {
+					if (node->left) {
+						node = node->left;
+						continue ;
+					}
+					else if (node->right) {
+						node = node->right;
+						continue ;
+					}
+					Node<value_type> *tmp = node;
+					this->_alloc.destroy(node->data);
+					this->_alloc.deallocate(node->data, 1);
+					this->_nAlloc.deallocate(node, 1);
+					--this->_size;
+					node = node->parent;
+					tmp->right = NULL;
+					tmp->left = NULL;
+					tmp->parent = NULL;
+					if (node) {
+						if (node->left == tmp)
+							node->left = NULL;
+						else
+							node->right = NULL;
+					}
 				}
 			}
 			void deleteNode(Node<value_type> *node) {
@@ -188,37 +291,53 @@ namespace ft {
 					iterator it(this->_root);
 					return ft::make_pair<iterator,bool>(it, true);
 				}
-				this->_pathInsert.clear();
+				// this->_pathInsert.clear();
 				iterator it1(root);
 				while (root != NULL) {
-					if (/**(root->data) > val*/(*this->_comp)(val, *(root->data))) {
+					if ((*this->_comp)(val, *(root->data))) {
 						if (root->left == NULL) {
 							root->left = newNode(val);
 							root->left->parent = root;
-							this->_pathInsert.push_back('L');
+							// this->_pathInsert.push_back('L');
 							this->_size++;
 							iterator it(root->left);
+							if (this->_size >= 3) {
+								Node<value_type> *parent = root;
+								while (parent) {
+									if (!is_balanced(parent))
+										parent = balance_tl(parent);
+									parent = parent->parent;
+								}
+							}
 							return ft::make_pair<iterator,bool>(it, true);
 						}
-						this->_pathInsert.push_back('L');
+						// this->_pathInsert.push_back('L');
 						root = root->left;
 						continue ;
 					}
-					if (/**(root->data) < val*/(*this->_comp)(*(root->data), val)) {
+					if ((*this->_comp)(*(root->data), val)) {
 						if (root->right == NULL) {
 							root->right = newNode(val);
 							root->right->parent = root;
-							this->_pathInsert.push_back('R');
+							// this->_pathInsert.push_back('R');
 							this->_size++;
 							iterator it(root->right);
+							if (this->_size >= 3) {
+								Node<value_type> *parent = root;
+								while (parent) {
+									if (!is_balanced(parent))
+										parent = balance_tl(parent);
+									parent = parent->parent;
+								}
+							}
 							return ft::make_pair<iterator,bool>(it, true);
 						}
-						this->_pathInsert.push_back('R');
+						// this->_pathInsert.push_back('R');
 						root = root->right;
 						continue ;
 					}
 					//cas of key already in
-					this->_pathInsert.clear();
+					// this->_pathInsert.clear();
 					return ft::make_pair<iterator,bool>(it1, false);
 				}
 				return ft::make_pair<iterator, bool>(it1, false);
@@ -228,7 +347,6 @@ namespace ft {
 				Node<value_type> *p = a->parent;
 				Node<value_type> *b = a->left;	
 				// // Node<value_type> *d = b->right;
-				std::cout <<"node = "<<node->data->first << "\n";
 				if (p != NULL) {
 					if (p->left == a)
 						p->left = b;
@@ -252,7 +370,6 @@ namespace ft {
 				Node<value_type> *p = a->parent;
 				Node<value_type> *b = a->right;
 				// Node<value_type> *d = b->left;
-				std::cout <<"node = "<<node->data->first << "\n";
 				if (p != NULL) {
 					if (p->left == a)
 						p->left = b;
@@ -293,13 +410,13 @@ namespace ft {
 					return 1;
 				lh = height(root->left);
 				rh = height(root->right);
-				if (abs(lh - rh) <= 1 && is_balanced(root->left) && is_balanced(root->right))
+				if (abs(lh - rh) <= 1 /*&& is_balanced(root->left) && is_balanced(root->right)*/)
 					return 1;
 				return 0;
 			}
 			void accedeTo(Node<value_type> *root, int i) {
 				int j = 0;
-				while (i > 0) {
+				while (i > 0 && root) {
 					if (this->_pathInsert[j] == 'R') {
 						root = root->right;
 					}
@@ -309,48 +426,39 @@ namespace ft {
 					++j;
 					--i;
 				}
-				//call parent while is diff to NULL////!!!!!!!!!!!!!!
-				std::cout << "calcule balance of node "<<root->data->first<< " | his i = "<<j;
 				if (is_balanced(root) == false) {
-					std::cout <<" ==> we need to balance it ||";
 					balance(root, j);
 				}
 			}
 			
 			void balance(Node<value_type> *root, int index) {
 				if (this->_pathInsert[index] == 'L' && this->_pathInsert[index+1] =='R') {
-					std::cout <<"LR \n";
+					// std::cout <<"LR \n";
 					r_rotation(root->left);
 					l_rotation(root);
 				}
 				else if (this->_pathInsert[index] == 'R' && this->_pathInsert[index+1] =='L') {
-					std::cout <<"LR \n";
+					// std::cout <<"LR \n";
 					l_rotation(root->right);
 					r_rotation(root);
 				}
 				else if (this->_pathInsert[index] == 'L' && this->_pathInsert[index+1] =='L') {
-					std::cout <<"LL\n";
+					// std::cout <<"LL\n";
 					l_rotation(root);
 				}
 				else if (this->_pathInsert[index] == 'R' && this->_pathInsert[index+1] =='R') {
-					std::cout <<"RR\n";
+					// std::cout <<"RR\n";
 					r_rotation(root);
 				}
 			}
 			void calcule_FactB(Node<value_type> *root) {
 				int j = 0;
-				///root balance here if no balance
-				for (size_t i = this->_pathInsert.size() - 1; i > 0; --i) {//from pathSize to parent'ssss
-					accedeTo(root, i);//!!!!!!ONe Timee
-					// j = i;
+				for (size_t i = this->_pathInsert.size() - 1; i > 0; --i) {
+					accedeTo(root, i);
 				}
-				std::cout << std::endl;
-				std::cout << "calcule balance of node "<<root->data->first<< " | his i = "<<j;
 				if (is_balanced(root) == false) {
-					std::cout <<" ==> we need to balance it ||";
 					balance(root, j);
 				}
-				std::cout << std::endl;
 			}
 			void print(Node<value_type> *root)  {
 				if (root == NULL)
@@ -373,15 +481,16 @@ namespace ft {
 			//Constructor
 			explicit map (const key_compare& comp = key_compare(),
 			  	const allocator_type& alloc = allocator_type()) : _alloc(alloc), _keyComp(comp) {
-					this->_comp =  new value_compare(comp);////////////
+					this->_comp = this->_compAlloc.allocate(1);
+					this->_compAlloc.construct(this->_comp, comp);
 					this->_size = 0;
-					this->_root = NULL;//init Node
+					this->_root = NULL;
 					//init the Null Node for the end of the map(allocate in the stack )
-					this->_nullEnd.data = this->_alloc.allocate(1);////
+					this->_nullEnd.data = this->_alloc.allocate(1);
 					this->_nullEnd.right = nullptr;
 					this->_nullEnd.left = nullptr;
 					this->_nullEnd.parent = nullptr;
-					this->_nullRend.data = this->_alloc.allocate(1);////
+					this->_nullRend.data = this->_alloc.allocate(1);
 					this->_nullRend.right = nullptr;
 					this->_nullRend.left = nullptr;
 					this->_nullRend.parent = nullptr;
@@ -390,15 +499,16 @@ namespace ft {
 			map (InputIterator first, InputIterator last,
 							const key_compare& comp = key_compare(),
 							const allocator_type& alloc = allocator_type()) : _alloc(alloc), _keyComp(comp) {
-								this->_comp =  new value_compare(comp);////////////
+								this->_comp = this->_compAlloc.allocate(1);
+								this->_compAlloc.construct(this->_comp, comp);
 								this->_size = 0;
-								this->_root = NULL;//init Node
-								//init the Null Node for the end of the map(allocate in the stack )
-								this->_nullEnd.data = this->_alloc.allocate(1);////
+								this->_root = NULL;
+								//init the Null Node for the end of the map(allocate in the stack)
+								this->_nullEnd.data = this->_alloc.allocate(1);
 								this->_nullEnd.right = nullptr;
 								this->_nullEnd.left = nullptr;
 								this->_nullEnd.parent = nullptr;
-								this->_nullRend.data = this->_alloc.allocate(1);////
+								this->_nullRend.data = this->_alloc.allocate(1);
 								this->_nullRend.right = nullptr;
 								this->_nullRend.left = nullptr;
 								this->_nullRend.parent = nullptr;
@@ -408,15 +518,16 @@ namespace ft {
 								}
 							}
 			map (const map& x) : _alloc(x._alloc), _keyComp(x._keyComp) {
-				this->_comp =  new value_compare(comp);////////////
+				this->_comp = this->_compAlloc.allocate(1);
+				this->_compAlloc.construct(this->_comp, x.value_comp());
 				this->_size = 0;
 				this->_root = NULL;//init Node
-				//init the Null Node for the end of the map(allocate in the stack )
-				this->_nullEnd.data = this->_alloc.allocate(1);////
+				// init the Null Node for the end of the map(allocate in the stack )
+				this->_nullEnd.data = this->_alloc.allocate(1);
 				this->_nullEnd.right = nullptr;
 				this->_nullEnd.left = nullptr;
 				this->_nullEnd.parent = nullptr;
-				this->_nullRend.data = this->_alloc.allocate(1);////
+				this->_nullRend.data = this->_alloc.allocate(1);
 				this->_nullRend.right = nullptr;
 				this->_nullRend.left = nullptr;
 				this->_nullRend.parent = nullptr;
@@ -424,35 +535,52 @@ namespace ft {
 			}
 			//Destructor
 			~map() {
-				delete this->_comp;
+				this->_compAlloc.destroy(this->_comp);
+				this->_compAlloc.deallocate(this->_comp, 1);
 				this->_alloc.deallocate(this->_nullEnd.data, 1);
 				this->_alloc.deallocate(this->_nullRend.data, 1);
 				this->clear();
-			}//heyed new delete 
+			}
 			//operator =
 			map& operator= (const map& x) {
 				if (this != &x ) {
-					delete this->_comp;
+					this->_compAlloc.destroy(this->_comp);
+					this->_compAlloc.deallocate(this->_comp, 1);
+
 					this->_alloc.deallocate(this->_nullEnd.data, 1);
 					this->_alloc.deallocate(this->_nullRend.data, 1);
 					this->clear();
+					this->_alloc = x._alloc;
+					this->_keyComp = x.key_comp();
+					this->_size = 0;
+					this->_nAlloc = x._nAlloc;
+					this->_compAlloc = x._compAlloc;
+					this->_root = NULL;
+					this->_comp = this->_compAlloc.allocate(1);
+					this->_compAlloc.construct(this->_comp, x.value_comp());
+					this->_nullEnd.data = this->_alloc.allocate(1);
+					this->_nullEnd.right = nullptr;
+					this->_nullEnd.left = nullptr;
+					this->_nullEnd.parent = nullptr;
+					this->_nullRend.data = this->_alloc.allocate(1);
+					this->_nullRend.right = nullptr;
+					this->_nullRend.left = nullptr;
+					this->_nullRend.parent = nullptr;
 					if (x.size() > 0)
 						this->insert(x.begin(), x.end());
-					this->_alloc = x._alloc;//////
-					this->_keyComp = x.key_comp;
 				}
 				return *this;
 			}
 			//Iterator
 			iterator begin() {
 				if (this->_root == NULL)
-					return iterator();/////////////
+					return iterator();
 				return iterator(this->_root->minimum(), &this->_nullEnd,&this->_nullRend, this->_root);
 			}
 			const_iterator begin() const {
 				if (this->_root == NULL)
-					return const_iterator();/////////////
-				return const_iterator(this->_root->minimum(), &this->_nullEnd,&this->_nullRend, this->_root);
+					return const_iterator();
+				return const_iterator((const Node<value_type> *)this->_root->minimum(), (const Node<value_type> *)&this->_nullEnd,(const Node<value_type> *)&this->_nullRend, (const Node<value_type> *)this->_root);
 			}
 			iterator end() {
 				if (this->_root == NULL)
@@ -462,7 +590,7 @@ namespace ft {
 			const_iterator end() const {
 				if (this->_root == NULL)
 					return const_iterator();
-				return const_iterator(&this->_nullEnd, &this->_nullEnd,&this->_nullRend, this->_root);
+				return const_iterator((const Node<value_type> *)&this->_nullEnd,(const Node<value_type> *)&this->_nullEnd,(const Node<value_type> *)&this->_nullRend,(const Node<value_type> *)this->_root);
 			}
 			reverse_iterator rbegin() {
 				if (!this->_root)
@@ -472,22 +600,22 @@ namespace ft {
 			const_reverse_iterator rbegin() const {
 				if (!this->_root)
 					return const_reverse_iterator();
-				return const_reverse_iterator(this->_root->maximum(),&this->_nullEnd,&this->_nullRend, this->_root);
+				return const_reverse_iterator((const Node<value_type> *)this->_root->maximum(),(const Node<value_type> *)&this->_nullEnd,(const Node<value_type> *)&this->_nullRend,(const Node<value_type> *)this->_root);
 			}
 			reverse_iterator rend() {
 				if (!this->_root)
 					return reverse_iterator();
-				return reverse_iterator(&_nullRend,&this->_nullEnd,&this->_nullRend, this->_root);
+				return reverse_iterator(&this->_nullRend,&this->_nullEnd,&this->_nullRend, this->_root);
 			}
 			const_reverse_iterator rend() const {
 				if (!this->_root)
-					return reverse_iterator();
-				return reverse_iterator(&_nullRend,&this->_nullEnd,&this->_nullRend, this->_root);
+					return const_reverse_iterator();
+				return const_reverse_iterator((const Node<value_type> *)&this->_nullRend,(const Node<value_type> *)&this->_nullEnd,(const Node<value_type> *)&this->_nullRend,(const Node<value_type> *)this->_root);
 			}
 			//capacity 
 			bool empty() const {return this->_size == 0;}
 			size_type size() const {return this->_size;}
-			size_type max_size() const;//////////////
+			size_type max_size() const { return this->_nAlloc.max_size(); }
 			//Element access
 			mapped_type& operator[] (const key_type& k) {
 				iterator e = find(k);
@@ -501,16 +629,17 @@ namespace ft {
 			//Modifiers
 				//Insert
 			ft::pair<iterator,bool> insert (const value_type& val) {
-				//cherck if ele is already in=>return pair<iterator to this element, false>  
+				//cherck if ele is already in=>return pair<iterator to this element, false>
 				ft::pair<iterator, bool> ret = insert_(this->_root, val);//make paire here to return it
-				if (this->_size >= 3 && this->_pathInsert.size() > 1) {//propapiliter de prob when path>=2
-					//balancin
-					calcule_FactB(this->_root);
-				}
+				// if (this->_size >= 3 && this->_pathInsert.size() > 1) {//propapiliter de prob when path>=2
+				// 	//balancin
+				// 	calcule_FactB(this->_root);
+				
+				// }
 				return ret;
 			}
-			iterator insert(iterator position, const value_type& val) {
-				Node<value_compare> *node;
+			iterator insert(iterator position, const value_type& val) {////
+				Node<value_type> *node;
 				if (!this->_root) {
 					ft::pair<iterator, bool> ret = this->insert(val);
 					return ret.first;
@@ -523,8 +652,10 @@ namespace ft {
 				return ret.first;
 			}
 			template <class InputIterator>
-			void insert (InputIterator first, InputIterator last) {
+			void insert (InputIterator first, InputIterator last, typename ft::enable_if<!is_integral<InputIterator>::value, InputIterator>::type a = InputIterator()) {
+				// std::cout <<"range insert \n";
 				while (first != last) {
+					// std::cout <<"loop\n";
 					this->insert(*first);
 					first++;
 				}
@@ -630,33 +761,35 @@ namespace ft {
 				if (!this->_root)
 					return ;
 				Node<value_type> *root = this->_root;
-				this->_pathInsert.clear();
+				// this->_pathInsert.clear();
+				int r = 0;
 				while (root != NULL) {
 					if ((*this->_comp)(*position, *(root->data))) {
 						if (root->left == NULL) {
-							this->_pathInsert.clear();
+							// this->_pathInsert.clear();
 							return ;
 						}
-						this->_pathInsert.push_back('L');
+						// this->_pathInsert.push_back('L');
+						r = 1;
 						root = root->left;
 						continue ;
 					}
 					else if ((*this->_comp)(*(root->data), *position)) {
 						if (root->right == NULL) {
-							this->_pathInsert.clear();
+							// this->_pathInsert.clear();
 							return ;
 						}
-						this->_pathInsert.push_back('R');
+						// this->_pathInsert.push_back('R');
+						r = 1;
 						root = root->right;
 						continue ;
 					}
 					else {
 						//cas of key already in
 						//delite node
-						std::cout <<"deleting node "<<root->data->first<< std::endl;
-						if (this->_pathInsert.size() == 0) {
+						if (/*this->_pathInsert.size()*/ r == 0) {
 							//deleting root node;
-							std::cout <<"root\n";
+							// std::cout <<"root\n";
 							if (!this->_root->right && !this->_root->left) {
 								this->deleteOneNode(this->_root);
 								this->_root = NULL;
@@ -714,7 +847,7 @@ namespace ft {
 						}
 						else {
 							//not ROOT
-							std::cout <<"NOT root\n";
+							// std::cout <<"NOT root\n";
 							Node<value_type> *parent;
 							Node<value_type> *succ;
 							if (!root->left && !root->right) {
@@ -826,15 +959,18 @@ namespace ft {
 			}
 			// 	//Swap
 			void swap (map& x) {
-				Node<value_type>	*tmp = this->_root;
-				this->_root = x._root;
-				x._root = tmp;
+				map tmp;
+
+				tmp = *this;
+				*this = x;
+				x = tmp;
 			}
 			// 	//clear
 			void clear() {
 				if (this->_size == 0 || this->_root == NULL)
 					return ;
-				this->deleteNode(this->_root);//root = NULL;
+				this->deleteNode(this->_root);//root = NULL;//////
+				this->_root = NULL;
 			}
 			// //Observers
 			key_compare key_comp() const {
@@ -867,7 +1003,7 @@ namespace ft {
 			}
 			// 	//count
 			size_type count (const key_type& k) const {
-				iterator e = find(k);
+				const_iterator e = find(k);
 				if (e != this->end())
 					return 1;
 				return 0;
@@ -917,7 +1053,7 @@ namespace ft {
 				iterator it = this->begin();
 
 				while (it != this->end()) {
-					if (this->_comp(k, it->first))
+					if (this->_keyComp(k, it->first))
 						return it;
 					it++;
 				}
@@ -928,7 +1064,7 @@ namespace ft {
 				const_iterator it = this->begin();
 
 				while (it != this->end()) {
-					if (this->_comp(k, it->first))
+					if (this->_keyComp(k, it->first))
 						return it;
 					it++;
 				}
@@ -950,6 +1086,7 @@ namespace ft {
 			size_type			_size;
 			node_allocator		_nAlloc;//call def const of allocator<Node<value_type> >()
 			Node<value_type>	*_root;
+			comp_allocator		_compAlloc;
 			value_compare		*_comp;///////////
 			std::vector<char>	_pathInsert;
 			Node<value_type>	_nullEnd;

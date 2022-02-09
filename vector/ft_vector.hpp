@@ -62,9 +62,11 @@ namespace ft
 			vector (const vector& x) : _size(x._size), _cap(x._size), _arr(NULL) {//catch assignament exception for the EXCEPTION SAFETY FOR GENERIC CONTAINERS
 				// *this = x;
 				try {
-					this->_arr = this->_alloc.allocate(this->_size);
-					for (size_type i = 0; i < this->_size; i++) {
-						this->_alloc.construct(this->_arr + i, *(x._arr + i));
+					if (this->_size) {
+						this->_arr = this->_alloc.allocate(this->_size);
+						for (size_type i = 0; i < this->_size; i++) {
+							this->_alloc.construct(this->_arr + i, *(x._arr + i));
+						}
 					}
 				}
 				catch(const std::exception& e)
@@ -75,7 +77,6 @@ namespace ft
 					this->clear();
 					this->_alloc.deallocate(this->_arr, this->_cap);
 				}
-				
 			}
 			//Destructor
 			~vector(void) {
@@ -88,6 +89,8 @@ namespace ft
 			//assignement operator
 			vector&		operator=(const vector & rhs) {
 				if (this != &rhs) {
+					// this->clear();
+					// this->_alloc.deallocate(this->_arr, this->_cap);
 					this->_cap = (rhs._size < this->_cap)? this->_cap: rhs._size;
 					pointer tmp = this->_alloc.allocate(this->_cap);////
 					for (size_type i = 0; i < rhs._size; i++) {
@@ -186,16 +189,17 @@ namespace ft
 			bool			empty() const { return (this->_size == 0);}
 			void			reserve(size_type n) {//can throw bad_alloc
 				if (n > this->max_size())
-				throw std::length_error("vector::_M_fill_insert");
+					throw std::length_error("vector::_M_fill_insert");
 				if (n < this->_cap)//=
 					return ;
 				size_type old_cap = this->_cap;
 				pointer tmp = this->_arr;
 				this->_arr = this->_alloc.allocate(n);
 				this->_cap = n;
-				for (int i = 0; i < this->_cap; i++) {
-					if (i < this->_size)
+				for (int i = 0; i < old_cap; i++) {
+					if (i < this->_size) {
 						this->_alloc.construct(this->_arr + i, *(tmp + i));//assigne an object 
+					}
 					this->_alloc.destroy(tmp + i);
 				}
 				this->_alloc.deallocate(tmp, old_cap);
@@ -339,7 +343,7 @@ namespace ft
 			// }
 			template <class InputIterator>
     		void	insert(iterator position, InputIterator first, InputIterator last, typename ft::enable_if<!is_integral<InputIterator>::value, InputIterator>::type a = InputIterator()) {
-				std::cout <<"insert of Inpust Iterator >>>>>"<< std::endl;
+			
 				if (last < first)
 					return ;
 				iterator 		oldEnd = this->end();
@@ -409,12 +413,10 @@ namespace ft
 			}
 			// 	//Swap
 			void 			swap(vector& x) {
-				std::swap(x._cap, this->_cap);
 				vector<T> tmp = x;
 				x = *this;
 				*this = tmp;
-				// x._arr.swap(this->_arr);
-				// std::unique_ptr<T[]>(x._arr).swap(std::unique_ptr<T[]>(this->_arr));
+				std::swap(x._cap, this->_cap);
 			}
 			// 	//Clear
 			void			clear() {

@@ -90,24 +90,24 @@ namespace ft {
 			}
 		
 	
-	bool	operator ==(const my_iterator &b) {
-		return (this->base() == b.base());
-	}
-	bool	operator !=(const my_iterator &b) {
-		return  (this->base() != b.base());
-	}
-	bool	operator <(const my_iterator &b) {
-		return (this->base() < b.base());
-	}
-	bool	operator >(const my_iterator &b) {
-		return (this->base() > b.base());//compare addresses
-	}
-	bool	operator <=(const my_iterator &b) {
-		return (this->base() <= b.base());
-	}
-	bool	operator >=(const my_iterator &b) {
-		return (this->base() >= b.base());
-	}
+			bool	operator ==(const my_iterator &b) {
+				return (this->base() == b.base());
+			}
+			bool	operator !=(const my_iterator &b) {
+				return  (this->base() != b.base());
+			}
+			bool	operator <(const my_iterator &b) {
+				return (this->base() < b.base());
+			}
+			bool	operator >(const my_iterator &b) {
+				return (this->base() > b.base());//compare addresses
+			}
+			bool	operator <=(const my_iterator &b) {
+				return (this->base() <= b.base());
+			}
+			bool	operator >=(const my_iterator &b) {
+				return (this->base() >= b.base());
+			}
 			pointer	 base(void) const {
 				return this->_ip;
 			}
@@ -223,30 +223,30 @@ namespace ft {
 			pointer _ip;//iterator::pointer
 	};
 	//comparison operator // non-membre function
-	// template<class Iterator1, class Iterator2>
-	// bool	operator ==(const Iterator1 &a, const Iterator2 &b) {
-	// 	return (a.base() == b.base());
-	// }
-	// template<class Iterator1, class Iterator2>
-	// bool	operator !=(const Iterator1 &a, const Iterator2 &b) {
-	// 	return  (a.base() != b.base());
-	// }
-	// template<class Iterator1, class Iterator2>
-	// bool	operator <(const Iterator1 &a, const Iterator2 &b) {
-	// 	return (a.base() < b.base());
-	// }
-	// template<class Iterator1, class Iterator2>
-	// bool	operator >(const Iterator1 &a, const Iterator2 &b) {
-	// 	return (a.base() > b.base());//compare addresses
-	// }
-	// template<class Iterator1, class Iterator2>
-	// bool	operator <=(const Iterator1 &a, const Iterator2 &b) {
-	// 	return (a.base() <= b.base());
-	// }
-	// template<class Iterator1, class Iterator2>
-	// bool	operator >=(const Iterator1 &a, const Iterator2 &b) {
-	// 	return (a.base() >= b.base());
-	// }
+	template<class Iterator1, class Iterator2>
+	bool	operator ==(const Iterator1 &a, const Iterator2 &b) {
+		return (a.base() == b.base());
+	}
+	template<class Iterator1, class Iterator2>
+	bool	operator !=(const Iterator1 &a, const Iterator2 &b) {
+		return  (a.base() != b.base());
+	}
+	template<class Iterator1, class Iterator2>
+	bool	operator <(const Iterator1 &a, const Iterator2 &b) {
+		return (a.base() < b.base());
+	}
+	template<class Iterator1, class Iterator2>
+	bool	operator >(const Iterator1 &a, const Iterator2 &b) {
+		return (a.base() > b.base());//compare addresses
+	}
+	template<class Iterator1, class Iterator2>
+	bool	operator <=(const Iterator1 &a, const Iterator2 &b) {
+		return (a.base() <= b.base());
+	}
+	template<class Iterator1, class Iterator2>
+	bool	operator >=(const Iterator1 &a, const Iterator2 &b) {
+		return (a.base() >= b.base());
+	}
 	//a - b
 	template <class Iterator>
 	typename Iterator::difference_type operator-(const Iterator &a, const Iterator &b) {
